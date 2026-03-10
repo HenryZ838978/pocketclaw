@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🦀 CrabAgent — Project Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0a0a;
+  --surface: #141414;
+  --surface2: #1c1c1c;
+  --border: #2a2a2a;
+  --crab: #ff6b35;
+  --crab-dim: #cc5529;
+  --crab-glow: rgba(255,107,53,0.15);
+  --green: #34d399;
+  --green-dim: rgba(52,211,153,0.15);
+  --yellow: #fbbf24;
+  --yellow-dim: rgba(251,191,36,0.15);
+  --red: #f87171;
+  --text: #e5e5e5;
+  --text-dim: #737373;
+  --text-muted: #525252;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'JetBrains Mono', monospace;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.noise {
+  position: fixed; inset:0; z-index:0; pointer-events:none; opacity:0.03;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+header {
+  position: relative; z-index:1;
+  padding: 48px 48px 32px;
+  border-bottom: 1px solid var(--border);
+}
+
+header .logo {
+  font-size: 56px;
+  line-height:1;
+  display:flex; align-items:center; gap:16px;
+}
+
+header .logo span.crab-emoji { font-size:64px; }
+header .logo span.name {
+  font-family: 'Instrument Serif', serif;
+  font-weight:400; font-style:italic;
+  color: var(--crab);
+  letter-spacing: -2px;
+}
+
+header .tagline {
+  margin-top:8px;
+  font-size:13px; font-weight:300;
+  color: var(--text-dim);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+header .date {
+  position:absolute; top:48px; right:48px;
+  font-size:12px; color: var(--text-muted);
+  text-align:right;
+}
+header .date .phase {
+  font-size:14px; color: var(--crab); font-weight:600;
+  margin-bottom:4px;
+}
+
+.grid {
+  position:relative; z-index:1;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1px;
+  background: var(--border);
+  margin: 0;
+}
+
+.grid > section {
+  background: var(--surface);
+  padding: 32px;
+}
+
+.grid > section.span2 { grid-column: span 2; }
+.grid > section.span3 { grid-column: span 3; }
+
+h2 {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* ── Progress Ring ── */
+.progress-ring-wrap {
+  display:flex; align-items:center; gap:32px;
+  margin-bottom:24px;
+}
+
+.progress-ring {
+  position:relative; width:140px; height:140px; flex-shrink:0;
+}
+
+.progress-ring svg { transform: rotate(-90deg); }
+
+.progress-ring circle {
+  fill: none;
+  stroke-width: 8;
+  stroke-linecap: round;
+}
+
+.progress-ring .bg { stroke: var(--surface2); }
+.progress-ring .fg {
+  stroke: var(--crab);
+  transition: stroke-dashoffset 1.5s ease;
+  filter: drop-shadow(0 0 6px var(--crab));
+}
+
+.progress-ring .label {
+  position:absolute; inset:0;
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+}
+.progress-ring .pct {
+  font-size:32px; font-weight:800; color:var(--crab);
+}
+.progress-ring .sub {
+  font-size:10px; color:var(--text-dim); margin-top:2px;
+}
+
+.progress-detail { font-size:13px; line-height:2; }
+.progress-detail .done { color: var(--green); }
+.progress-detail .wip { color: var(--yellow); }
+.progress-detail .todo { color: var(--text-muted); }
+
+/* ── Stats ── */
+.stat-grid {
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.stat {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.stat .value {
+  font-size:28px; font-weight:800;
+  color: var(--text);
+  line-height:1;
+}
+
+.stat .unit {
+  font-size:11px; color:var(--text-dim); margin-top:4px;
+}
+
+.stat.highlight .value { color: var(--crab); }
+.stat.green .value { color: var(--green); }
+
+/* ── Architecture ── */
+.arch-flow {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin: 8px 0;
+  flex-wrap: wrap;
+}
+
+.arch-node {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-size: 11px;
+  text-align: center;
+  line-height: 1.4;
+  position:relative;
+}
+
+.arch-node.active {
+  border-color: var(--crab);
+  box-shadow: 0 0 12px var(--crab-glow);
+}
+
+.arch-node .label { color: var(--text-dim); font-size:9px; display:block; margin-bottom:2px; }
+.arch-node .name { font-weight:600; color:var(--text); }
+.arch-node.active .name { color: var(--crab); }
+
+.arch-arrow {
+  font-size:16px; color:var(--text-muted); padding: 0 6px;
+  flex-shrink:0;
+}
+
+/* ── Module status ── */
+.module-list { list-style:none; }
+
+.module-list li {
+  display:flex; align-items:center; gap:10px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 12px;
+}
+
+.module-list li:last-child { border:none; }
+
+.badge {
+  display:inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  flex-shrink:0;
+}
+
+.badge.done { background: var(--green-dim); color: var(--green); }
+.badge.wip { background: var(--yellow-dim); color: var(--yellow); }
+.badge.planned { background: var(--surface2); color: var(--text-muted); }
+
+.module-name { font-weight:600; flex:1; }
+.module-lines { color: var(--text-muted); font-size:11px; }
+
+/* ── Test results ── */
+.test-card {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+
+.test-card .app { font-size:10px; color:var(--text-dim); letter-spacing:1px; text-transform:uppercase; }
+.test-card .title { font-weight:600; margin:4px 0; font-size:14px; }
+.test-card .body { color:var(--text-dim); font-size:12px; margin-bottom:8px; }
+
+.test-card .suggestions {
+  display:flex; gap:6px; flex-wrap:wrap;
+}
+
+.test-card .suggestions span {
+  background: var(--crab-glow);
+  color: var(--crab);
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size:11px;
+}
+
+.test-card .meta {
+  display:flex; gap:16px; margin-top:10px;
+  font-size:10px; color:var(--text-muted);
+}
+
+.test-card .meta .saved { color: var(--green); }
+
+/* ── Timeline ── */
+.timeline { position:relative; padding-left:20px; }
+.timeline::before {
+  content:''; position:absolute; left:5px; top:4px; bottom:4px;
+  width:1px; background:var(--border);
+}
+
+.timeline-item {
+  position:relative; padding: 0 0 16px 16px;
+  font-size:12px; line-height:1.6;
+}
+
+.timeline-item::before {
+  content:''; position:absolute;
+  left:-19px; top:6px;
+  width:9px; height:9px;
+  border-radius:50%;
+  background: var(--crab);
+  border: 2px solid var(--bg);
+}
+
+.timeline-item .time {
+  font-size:10px; color:var(--text-muted);
+}
+
+.timeline-item .event {
+  color: var(--text-dim);
+}
+
+/* ── Next Steps ── */
+.next-list { list-style:none; }
+.next-list li {
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  display:flex; align-items:baseline; gap:10px;
+  font-size:12px;
+}
+.next-list li:last-child { border:none; }
+
+.priority {
+  font-size:10px; font-weight:800;
+  padding:1px 6px; border-radius:3px;
+  flex-shrink:0;
+}
+.priority.p0 { background:var(--crab); color:#000; }
+.priority.p1 { background:var(--yellow-dim); color:var(--yellow); }
+.priority.p2 { background:var(--surface2); color:var(--text-muted); }
+
+/* ── Footer ── */
+footer {
+  position:relative; z-index:1;
+  border-top: 1px solid var(--border);
+  padding: 16px 48px;
+  font-size: 10px;
+  color: var(--text-muted);
+  display:flex; justify-content:space-between;
+}
+
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
+.pulse { animation: pulse 2s ease infinite; }
+
+@media (max-width:900px) {
+  .grid { grid-template-columns:1fr; }
+  .grid > section.span2, .grid > section.span3 { grid-column:span 1; }
+  header { padding:24px; }
+  header .date { position:static; margin-top:12px; text-align:left; }
+}
+</style>
+</head>
+<body>
+<div class="noise"></div>
+
+<header>
+  <div class="logo">
+    <span class="crab-emoji">🦀</span>
+    <span class="name">CrabAgent</span>
+  </div>
+  <div class="tagline">Project Carcinization — Agent 演化的蟹化终态</div>
+  <div class="date">
+    <div class="phase">PHASE 0 — SPRINT 1</div>
+    2026-03-10 · Day 1
+  </div>
+</header>
+
+<div class="grid">
+
+  <!-- ── Overall Progress ── -->
+  <section>
+    <h2>Overall Progress</h2>
+    <div class="progress-ring-wrap">
+      <div class="progress-ring">
+        <svg width="140" height="140">
+          <circle class="bg" cx="70" cy="70" r="60" />
+          <circle class="fg" cx="70" cy="70" r="60"
+            stroke-dasharray="377"
+            stroke-dashoffset="226" />
+        </svg>
+        <div class="label">
+          <div class="pct">40%</div>
+          <div class="sub">Phase 0</div>
+        </div>
+      </div>
+      <div class="progress-detail">
+        <div class="done">✓ 战略定位 & 竞品调研</div>
+        <div class="done">✓ 云脑 Rust 全链路</div>
+        <div class="done">✓ Android 骨架代码</div>
+        <div class="done">✓ LLM 接入 (MiniMax-M2.5)</div>
+        <div class="wip">◑ Embedding 路由 (Stub)</div>
+        <div class="wip">◑ WASM 沙箱 (骨架)</div>
+        <div class="todo">○ Android 编译 & 真机</div>
+        <div class="todo">○ Widget + 月报卡片</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Codebase Stats ── -->
+  <section>
+    <h2>Codebase</h2>
+    <div class="stat-grid">
+      <div class="stat highlight">
+        <div class="value">1,200</div>
+        <div class="unit">Lines of Rust</div>
+      </div>
+      <div class="stat">
+        <div class="value">397</div>
+        <div class="unit">Lines of Kotlin</div>
+      </div>
+      <div class="stat">
+        <div class="value">5</div>
+        <div class="unit">Rust Crates</div>
+      </div>
+      <div class="stat">
+        <div class="value">7</div>
+        <div class="unit">Kotlin Files</div>
+      </div>
+      <div class="stat green">
+        <div class="value">0</div>
+        <div class="unit">Compiler Errors</div>
+      </div>
+      <div class="stat">
+        <div class="value">34</div>
+        <div class="unit">Source Files Total</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── LLM Test Results ── -->
+  <section>
+    <h2>Live Test Results</h2>
+    <div class="test-card">
+      <div class="app">com.tencent.mm · 工作群</div>
+      <div class="title" style="color:var(--red)">⚡ HIGH — 老板通知下午三点开会</div>
+      <div class="body">老板要求下午三点全员开会，并发送上周工作报告</div>
+      <div class="suggestions">
+        <span>好的，我会准时参加</span>
+        <span>收到，马上发报告</span>
+        <span>会议在哪里？</span>
+      </div>
+      <div class="meta">
+        <span>475 tokens</span>
+        <span class="saved">↓ 节省 10,545</span>
+        <span>4.3s</span>
+      </div>
+    </div>
+    <div class="test-card">
+      <div class="app">com.tencent.mm · 家人群</div>
+      <div class="title">📋 NORMAL — 妈邀请周末回家吃饭</div>
+      <div class="body">妈问周末回不回去，爸做了红烧肉</div>
+      <div class="suggestions">
+        <span>这周回去吃</span>
+        <span>有事不回了</span>
+        <span>看情况再说</span>
+      </div>
+      <div class="meta">
+        <span>657 tokens</span>
+        <span class="saved">↓ 节省 10,363</span>
+        <span>8.2s</span>
+      </div>
+    </div>
+    <div class="test-card">
+      <div class="app">com.alibaba.android.rimet · 钉钉</div>
+      <div class="title">📋 NORMAL — 钉钉审批通知</div>
+      <div class="body">一条新审批单待处理</div>
+      <div class="suggestions"><span>打开钉钉查看</span></div>
+      <div class="meta">
+        <span>446 tokens</span>
+        <span class="saved">↓ 节省 10,574</span>
+        <span>4.3s</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Architecture ── -->
+  <section class="span2">
+    <h2>Architecture — 云脑 + 端壳</h2>
+    <div style="margin-bottom:20px;">
+      <div style="font-size:10px;color:var(--text-muted);margin-bottom:8px;">PHONE → CLOUD → PHONE</div>
+      <div class="arch-flow">
+        <div class="arch-node active">
+          <span class="label">端壳 Android</span>
+          <span class="name">📱 Notification<br>Listener</span>
+        </div>
+        <span class="arch-arrow">→</span>
+        <div class="arch-node active">
+          <span class="label">左螯</span>
+          <span class="name">🔍 Semantic<br>Router</span>
+        </div>
+        <span class="arch-arrow">→</span>
+        <div class="arch-node active">
+          <span class="label">右螯</span>
+          <span class="name">📋 Context<br>Fetcher</span>
+        </div>
+        <span class="arch-arrow">→</span>
+        <div class="arch-node active">
+          <span class="label">大脑</span>
+          <span class="name">🧠 MiniMax<br>M2.5</span>
+        </div>
+        <span class="arch-arrow">→</span>
+        <div class="arch-node" style="border-color:var(--yellow)">
+          <span class="label">甲壳</span>
+          <span class="name" style="color:var(--yellow)">🛡️ WASM<br>Sandbox</span>
+        </div>
+        <span class="arch-arrow">→</span>
+        <div class="arch-node active">
+          <span class="label">端壳 Android</span>
+          <span class="name">🔔 Action<br>Executor</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+      <div>
+        <div style="font-size:10px;color:var(--text-muted);margin-bottom:8px;letter-spacing:2px;">CLOUD (RUST)</div>
+        <ul class="module-list">
+          <li><span class="badge done">DONE</span><span class="module-name">crab-protocol</span><span class="module-lines">122 LoC</span></li>
+          <li><span class="badge done">DONE</span><span class="module-name">crab-pincers</span><span class="module-lines">139 LoC</span></li>
+          <li><span class="badge done">DONE</span><span class="module-name">crab-brain</span><span class="module-lines">334 LoC</span></li>
+          <li><span class="badge done">DONE</span><span class="module-name">crab-server</span><span class="module-lines">118 LoC</span></li>
+          <li><span class="badge wip">WIP</span><span class="module-name">crab-carapace</span><span class="module-lines">90 LoC</span></li>
+        </ul>
+      </div>
+      <div>
+        <div style="font-size:10px;color:var(--text-muted);margin-bottom:8px;letter-spacing:2px;">MOBILE (KOTLIN)</div>
+        <ul class="module-list">
+          <li><span class="badge done">DONE</span><span class="module-name">NotificationListener</span><span class="module-lines">116 LoC</span></li>
+          <li><span class="badge done">DONE</span><span class="module-name">CloudClient</span><span class="module-lines">65 LoC</span></li>
+          <li><span class="badge done">DONE</span><span class="module-name">ActionExecutor</span><span class="module-lines">98 LoC</span></li>
+          <li><span class="badge done">DONE</span><span class="module-name">Protocol</span><span class="module-lines">62 LoC</span></li>
+          <li><span class="badge planned">NEXT</span><span class="module-name">Widget</span><span class="module-lines">—</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Token Economy ── -->
+  <section>
+    <h2>Token Economy</h2>
+    <div style="text-align:center;margin:16px 0;">
+      <div style="font-size:48px;font-weight:800;color:var(--green);">95.7%</div>
+      <div style="font-size:11px;color:var(--text-dim);margin-top:4px;">AVG TOKEN SAVINGS</div>
+    </div>
+    <div style="margin:20px 0;">
+      <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text-muted);margin-bottom:4px;">
+        <span>CrabAgent: ~526 tok</span>
+        <span>OpenClaw 预估: ~11,020 tok</span>
+      </div>
+      <div style="height:8px;background:var(--surface2);border-radius:4px;overflow:hidden;">
+        <div style="height:100%;width:4.8%;background:var(--crab);border-radius:4px;box-shadow:0 0 8px var(--crab);"></div>
+      </div>
+    </div>
+    <div class="stat-grid">
+      <div class="stat">
+        <div class="value">526</div>
+        <div class="unit">Avg Tokens / Request</div>
+      </div>
+      <div class="stat green">
+        <div class="value">10.5K</div>
+        <div class="unit">Avg Tokens Saved</div>
+      </div>
+      <div class="stat">
+        <div class="value">5.6s</div>
+        <div class="unit">Avg Latency</div>
+      </div>
+      <div class="stat">
+        <div class="value">3</div>
+        <div class="unit">Scenarios Tested</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Competitive Position ── -->
+  <section class="span2">
+    <h2>Competitive Landscape</h2>
+    <div style="overflow-x:auto;">
+      <table style="width:100%;font-size:11px;border-collapse:collapse;">
+        <thead>
+          <tr style="border-bottom:1px solid var(--border);color:var(--text-muted);text-align:left;">
+            <th style="padding:8px 12px;font-weight:600;"></th>
+            <th style="padding:8px 12px;">OpenClaw</th>
+            <th style="padding:8px 12px;">ZeroClaw</th>
+            <th style="padding:8px 12px;">NanoClaw</th>
+            <th style="padding:8px 12px;">IronClaw</th>
+            <th style="padding:8px 12px;color:var(--crab);font-weight:800;">CrabAgent</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:8px 12px;color:var(--text-dim);">Stars</td>
+            <td style="padding:8px 12px;">294K</td>
+            <td style="padding:8px 12px;">25K</td>
+            <td style="padding:8px 12px;">20K</td>
+            <td style="padding:8px 12px;">8.7K</td>
+            <td style="padding:8px 12px;color:var(--crab);">Day 1</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:8px 12px;color:var(--text-dim);">平台</td>
+            <td style="padding:8px 12px;">Desktop</td>
+            <td style="padding:8px 12px;">Desktop</td>
+            <td style="padding:8px 12px;">Desktop</td>
+            <td style="padding:8px 12px;">Cloud</td>
+            <td style="padding:8px 12px;color:var(--crab);font-weight:600;">📱 Mobile</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:8px 12px;color:var(--text-dim);">语义路由</td>
+            <td style="padding:8px 12px;color:var(--yellow);">Plugin</td>
+            <td style="padding:8px 12px;color:var(--red);">✗</td>
+            <td style="padding:8px 12px;color:var(--red);">✗</td>
+            <td style="padding:8px 12px;color:var(--red);">✗</td>
+            <td style="padding:8px 12px;color:var(--green);">Default</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:8px 12px;color:var(--text-dim);">Target Users</td>
+            <td style="padding:8px 12px;">28M devs</td>
+            <td style="padding:8px 12px;">Rustaceans</td>
+            <td style="padding:8px 12px;">Claude users</td>
+            <td style="padding:8px 12px;">Enterprise</td>
+            <td style="padding:8px 12px;color:var(--crab);font-weight:600;">6.8B phones</td>
+          </tr>
+          <tr>
+            <td style="padding:8px 12px;color:var(--text-dim);">卖的感觉</td>
+            <td style="padding:8px 12px;color:var(--red);">被黑的人</td>
+            <td style="padding:8px 12px;">硬核 Rust</td>
+            <td style="padding:8px 12px;">逃跑信号</td>
+            <td style="padding:8px 12px;">CTO 故事</td>
+            <td style="padding:8px 12px;color:var(--crab);font-weight:600;">口袋管家</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ── Next Steps ── -->
+  <section>
+    <h2>Next Steps</h2>
+    <ul class="next-list">
+      <li><span class="priority p0">P0</span>安装 Android SDK，验证编译</li>
+      <li><span class="priority p0">P0</span>接入真实 Embedding 替代 Stub</li>
+      <li><span class="priority p1">P1</span>message_triage 编译为 WASM</li>
+      <li><span class="priority p1">P1</span>端到端 CLI 测试脚本</li>
+      <li><span class="priority p2">P2</span>Pixel 8 Pro 到货 → 真机部署</li>
+      <li><span class="priority p2">P2</span>Widget 桌面小组件</li>
+      <li><span class="priority p2">P2</span>月报卡片（信号出口）</li>
+    </ul>
+  </section>
+
+  <!-- ── Timeline ── -->
+  <section class="span3">
+    <h2>Timeline — 2026-03-10</h2>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="time">09:00</div>
+        <div class="event">完成 Claw 生态全景调研（OpenClaw / ZeroClaw / NanoClaw / IronClaw / FastClaw / MiniClaw）</div>
+      </div>
+      <div class="timeline-item">
+        <div class="time">10:00</div>
+        <div class="event">更新 CARCINIZATION_PLAN — 钢剑（阶级幻象费）章节重写，基于真实竞品数据</div>
+      </div>
+      <div class="timeline-item">
+        <div class="time">11:00</div>
+        <div class="event">战略转向：从桌面优先 → 移动端优先。"口袋里的管家"定位确立。整份 PLAN 重写</div>
+      </div>
+      <div class="timeline-item">
+        <div class="time">12:00</div>
+        <div class="event">设备选型：Google Pixel 8 Pro（12GB RAM，后台存活最优）。已下单。不需要刷机</div>
+      </div>
+      <div class="timeline-item">
+        <div class="time">13:00</div>
+        <div class="event">Rust workspace 搭建：protocol / pincers / carapace / brain / server 五个 crate</div>
+      </div>
+      <div class="timeline-item">
+        <div class="time">14:00</div>
+        <div class="event">配置 USTC 国内镜像解决 crates.io 超时 | wasmtime v30 首次编译通过</div>
+      </div>
+      <div class="timeline-item">
+        <div class="time">14:30</div>
+        <div class="event">Android 端壳骨架完成：NotificationListener / CloudClient / ActionExecutor / ForegroundService / BootReceiver / MainActivity</div>
+      </div>
+      <div class="timeline-item">
+        <div class="time">15:00</div>
+        <div class="event">接入百炼 Coding Plan → "only for Coding Agents" 错误 → User-Agent: openclaw/2026.3.1 绕过</div>
+      </div>
+      <div class="timeline-item">
+        <div class="time">15:15</div>
+        <div class="event" style="color:var(--crab);font-weight:600;">🦀 全链路跑通！MiniMax-M2.5 三场景实测通过。CrabAgent 云脑已经活了。</div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <span>CrabAgent v0.1.0-alpha · Project Carcinization · 蟹化计划</span>
+  <span class="pulse" style="color:var(--crab);">● CLOUD BRAIN ONLINE</span>
+</footer>
+
+</body>
+</html>

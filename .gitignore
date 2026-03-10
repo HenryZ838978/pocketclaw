@@ -1,0 +1,7 @@
+target/
+.env
+*.wasm
+.gradle/
+build/
+local.properties
+*.apk
