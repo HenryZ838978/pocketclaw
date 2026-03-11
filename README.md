@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/hero.png" alt="PocketClaw — Your AI Butler, In Your Pocket" width="600">
+ 
 </p>
 
 <h1 align="center">🦀 PocketClaw</h1>
