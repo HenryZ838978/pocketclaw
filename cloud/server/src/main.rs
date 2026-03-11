@@ -77,33 +77,69 @@ async fn create_orchestrator() -> Orchestrator {
 }
 
 fn builtin_skills() -> Vec<SkillDescriptor> {
+    // 12 skills — matching OpenClaw's typical skill count for fair comparison.
+    // OpenClaw injects ALL skill metadata + ALL tool schemas (~15K tokens baseline).
+    // PocketClaw only loads the matched 1-3 into context.
     vec![
         SkillDescriptor {
-            id: "message_triage".into(),
-            name: "Message Triage".into(),
-            description: "Classify incoming messages by urgency and importance. \
-                Summarize key points. Flag messages that need immediate attention. \
-                Filter out noise (ads, system notifications, spam).".into(),
-            wasm_path: String::new(),
-            embedding: vec![],
+            id: "message_triage".into(), name: "Message Triage".into(),
+            description: "Classify incoming messages by urgency (urgent/high/normal/low). Summarize key points in one sentence. Flag messages that need immediate attention. Filter out noise like ads, system notifications, and spam.".into(),
+            wasm_path: String::new(), embedding: vec![],
         },
         SkillDescriptor {
-            id: "schedule_manage".into(),
-            name: "Schedule Manager".into(),
-            description: "Create, modify, and check calendar events. \
-                Set reminders for upcoming meetings. Detect scheduling conflicts. \
-                Parse natural language time expressions.".into(),
-            wasm_path: String::new(),
-            embedding: vec![],
+            id: "schedule_manage".into(), name: "Schedule Manager".into(),
+            description: "Create, modify, and check calendar events. Set reminders for upcoming meetings. Detect scheduling conflicts. Parse natural language time expressions like 'next Tuesday 3pm'.".into(),
+            wasm_path: String::new(), embedding: vec![],
         },
         SkillDescriptor {
-            id: "quick_reply".into(),
-            name: "Quick Reply".into(),
-            description: "Draft contextually appropriate short replies to messages. \
-                Understand conversation tone and formality level. \
-                Offer 2-3 reply suggestions the user can send with one tap.".into(),
-            wasm_path: String::new(),
-            embedding: vec![],
+            id: "quick_reply".into(), name: "Quick Reply".into(),
+            description: "Draft contextually appropriate short replies to messages. Understand conversation tone and formality level. Offer 2-3 reply suggestions the user can send with one tap.".into(),
+            wasm_path: String::new(), embedding: vec![],
+        },
+        SkillDescriptor {
+            id: "web_search".into(), name: "Web Search".into(),
+            description: "Search the web for real-time information. Return concise summaries with source links. Handle questions about weather, news, facts, prices, and general knowledge.".into(),
+            wasm_path: String::new(), embedding: vec![],
+        },
+        SkillDescriptor {
+            id: "expense_track".into(), name: "Expense Tracker".into(),
+            description: "Parse receipt photos or text descriptions into structured expense entries. Categorize spending (food, transport, entertainment). Track daily/weekly/monthly totals.".into(),
+            wasm_path: String::new(), embedding: vec![],
+        },
+        SkillDescriptor {
+            id: "translate".into(), name: "Translator".into(),
+            description: "Translate text between languages. Auto-detect source language. Support Chinese, English, Japanese, Korean, and 20+ other languages. Preserve tone and context.".into(),
+            wasm_path: String::new(), embedding: vec![],
+        },
+        SkillDescriptor {
+            id: "daily_digest".into(), name: "Daily Digest".into(),
+            description: "Generate end-of-day summary of all processed messages and events. Highlight unread important items. Show statistics: messages triaged, reminders set, replies drafted.".into(),
+            wasm_path: String::new(), embedding: vec![],
+        },
+        SkillDescriptor {
+            id: "contact_lookup".into(), name: "Contact Lookup".into(),
+            description: "Find contact information by name or relationship. Remember frequently contacted people. Suggest who to notify about schedule changes.".into(),
+            wasm_path: String::new(), embedding: vec![],
+        },
+        SkillDescriptor {
+            id: "note_capture".into(), name: "Quick Note".into(),
+            description: "Capture voice or text notes and organize them. Tag notes by topic. Search past notes by keyword or date. Support markdown formatting.".into(),
+            wasm_path: String::new(), embedding: vec![],
+        },
+        SkillDescriptor {
+            id: "alarm_timer".into(), name: "Alarm & Timer".into(),
+            description: "Set alarms, timers, and countdown reminders. Support recurring alarms. Parse natural language like 'wake me up at 7' or 'remind me in 20 minutes'.".into(),
+            wasm_path: String::new(), embedding: vec![],
+        },
+        SkillDescriptor {
+            id: "file_manage".into(), name: "File Manager".into(),
+            description: "Organize photos, documents, and downloads on device. Auto-categorize screenshots. Clean up duplicate files. Archive old files to save storage.".into(),
+            wasm_path: String::new(), embedding: vec![],
+        },
+        SkillDescriptor {
+            id: "weather_check".into(), name: "Weather".into(),
+            description: "Check current weather and forecast for any location. Provide outfit suggestions based on weather. Alert about severe weather warnings.".into(),
+            wasm_path: String::new(), embedding: vec![],
         },
     ]
 }

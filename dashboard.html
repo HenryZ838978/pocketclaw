@@ -462,7 +462,7 @@ footer {
     </div>
   </section>
 
-  <!-- ── Architecture ── -->
+  <!-- ── Architecture + Security ── -->
   <section class="span2">
     <h2>Architecture — 云脑 + 端壳</h2>
     <div style="margin-bottom:20px;">
@@ -500,7 +500,7 @@ footer {
       </div>
     </div>
 
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;">
       <div>
         <div style="font-size:10px;color:var(--text-muted);margin-bottom:8px;letter-spacing:2px;">CLOUD (RUST)</div>
         <ul class="module-list">
@@ -521,42 +521,74 @@ footer {
           <li><span class="badge planned">NEXT</span><span class="module-name">Widget</span><span class="module-lines">—</span></li>
         </ul>
       </div>
+      <div>
+        <div style="font-size:10px;color:var(--crab);margin-bottom:8px;letter-spacing:2px;">🔒 SECURITY</div>
+        <ul class="module-list">
+          <li style="border-color:rgba(255,107,53,0.15);">
+            <span class="badge done" style="background:var(--crab-glow);color:var(--crab);">双层</span>
+            <span class="module-name" style="font-size:11px;">端侧: Android OS 沙箱<br><span style="color:var(--text-muted);font-weight:400;font-size:10px;">每个 App 系统级隔离，不造轮子</span></span>
+          </li>
+          <li style="border-color:rgba(255,107,53,0.15);">
+            <span class="badge done" style="background:var(--crab-glow);color:var(--crab);">双层</span>
+            <span class="module-name" style="font-size:11px;">云侧: WASM 密封沙箱<br><span style="color:var(--text-muted);font-weight:400;font-size:10px;">启动 &lt;1ms · 内存 2MB · 无 fs/net</span></span>
+          </li>
+          <li style="border-color:rgba(255,107,53,0.15);">
+            <span class="badge done" style="background:var(--green-dim);color:var(--green);">RUST</span>
+            <span class="module-name" style="font-size:11px;">编译期内存安全<br><span style="color:var(--text-muted);font-weight:400;font-size:10px;">消除 buffer overflow / use-after-free</span></span>
+          </li>
+          <li style="border-color:rgba(255,107,53,0.15);">
+            <span class="badge done" style="background:var(--green-dim);color:var(--green);">0</span>
+            <span class="module-name" style="font-size:11px;">无插件市场<br><span style="color:var(--text-muted);font-weight:400;font-size:10px;">零供应链攻击面 (vs OpenClaw 36%)</span></span>
+          </li>
+        </ul>
+      </div>
     </div>
   </section>
 
   <!-- ── Token Economy ── -->
   <section>
-    <h2>Token Economy</h2>
+    <h2>Token Economy (12 Skills)</h2>
     <div style="text-align:center;margin:16px 0;">
-      <div style="font-size:48px;font-weight:800;color:var(--green);">95.7%</div>
-      <div style="font-size:11px;color:var(--text-dim);margin-top:4px;">AVG TOKEN SAVINGS</div>
+      <div style="font-size:48px;font-weight:800;color:var(--green);">94.9%</div>
+      <div style="font-size:11px;color:var(--text-dim);margin-top:4px;">INPUT TOKEN SAVINGS vs OpenClaw</div>
     </div>
-    <div style="margin:20px 0;">
+    <div style="margin:16px 0;">
       <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text-muted);margin-bottom:4px;">
-        <span>CrabAgent: ~526 tok</span>
-        <span>OpenClaw 预估: ~11,020 tok</span>
+        <span>🦀 PocketClaw: ~599 tok/req</span>
+        <span>OpenClaw 文档: ~17,246 tok/req</span>
       </div>
       <div style="height:8px;background:var(--surface2);border-radius:4px;overflow:hidden;">
-        <div style="height:100%;width:4.8%;background:var(--crab);border-radius:4px;box-shadow:0 0 8px var(--crab);"></div>
+        <div style="height:100%;width:3.5%;background:var(--crab);border-radius:4px;box-shadow:0 0 8px var(--crab);"></div>
       </div>
     </div>
+    <div style="font-size:9px;color:var(--text-muted);margin-bottom:12px;line-height:1.6;">
+      OpenClaw 基线来源: 系统提示 ~9,600 tok + 工具 Schema ~5,000 tok (23 tools) + Skills ~546 tok (12 skills) + 会话历史 ~2,000 tok<br>
+      <span style="color:var(--text-dim);">Source: docs.openclaw.ai/concepts/context · GitHub Issue #28278</span>
+    </div>
     <div class="stat-grid">
-      <div class="stat">
-        <div class="value">526</div>
+      <div class="stat highlight">
+        <div class="value">599</div>
         <div class="unit">Avg Tokens / Request</div>
       </div>
       <div class="stat green">
-        <div class="value">10.5K</div>
-        <div class="unit">Avg Tokens Saved</div>
+        <div class="value">16.6K</div>
+        <div class="unit">Avg Saved vs OpenClaw</div>
       </div>
       <div class="stat">
-        <div class="value">5.6s</div>
-        <div class="unit">Avg Latency</div>
+        <div class="value">12</div>
+        <div class="unit">Skills Registered</div>
       </div>
       <div class="stat">
-        <div class="value">3</div>
+        <div class="value">5</div>
         <div class="unit">Scenarios Tested</div>
       </div>
+    </div>
+    <div style="margin-top:12px;font-size:10px;color:var(--text-muted);line-height:1.8;">
+      T1 老板开会 <span style="color:var(--text-dim);">509 tok</span> ·
+      T2 妈妈周末 <span style="color:var(--text-dim);">593 tok</span> ·
+      T3 钉钉审批 <span style="color:var(--text-dim);">606 tok</span> ·
+      T4 天气查询 <span style="color:var(--text-dim);">749 tok</span> ·
+      T5 支付记账 <span style="color:var(--text-dim);">538 tok</span>
     </div>
   </section>
 
@@ -572,18 +604,10 @@ footer {
             <th style="padding:8px 12px;">ZeroClaw</th>
             <th style="padding:8px 12px;">NanoClaw</th>
             <th style="padding:8px 12px;">IronClaw</th>
-            <th style="padding:8px 12px;color:var(--crab);font-weight:800;">CrabAgent</th>
+            <th style="padding:8px 12px;color:var(--crab);font-weight:800;">PocketClaw</th>
           </tr>
         </thead>
         <tbody>
-          <tr style="border-bottom:1px solid var(--border);">
-            <td style="padding:8px 12px;color:var(--text-dim);">Stars</td>
-            <td style="padding:8px 12px;">294K</td>
-            <td style="padding:8px 12px;">25K</td>
-            <td style="padding:8px 12px;">20K</td>
-            <td style="padding:8px 12px;">8.7K</td>
-            <td style="padding:8px 12px;color:var(--crab);">Day 1</td>
-          </tr>
           <tr style="border-bottom:1px solid var(--border);">
             <td style="padding:8px 12px;color:var(--text-dim);">平台</td>
             <td style="padding:8px 12px;">Desktop</td>
@@ -593,14 +617,6 @@ footer {
             <td style="padding:8px 12px;color:var(--crab);font-weight:600;">📱 Mobile</td>
           </tr>
           <tr style="border-bottom:1px solid var(--border);">
-            <td style="padding:8px 12px;color:var(--text-dim);">语义路由</td>
-            <td style="padding:8px 12px;color:var(--yellow);">Plugin</td>
-            <td style="padding:8px 12px;color:var(--red);">✗</td>
-            <td style="padding:8px 12px;color:var(--red);">✗</td>
-            <td style="padding:8px 12px;color:var(--red);">✗</td>
-            <td style="padding:8px 12px;color:var(--green);">Default</td>
-          </tr>
-          <tr style="border-bottom:1px solid var(--border);">
             <td style="padding:8px 12px;color:var(--text-dim);">Target Users</td>
             <td style="padding:8px 12px;">28M devs</td>
             <td style="padding:8px 12px;">Rustaceans</td>
@@ -608,13 +624,37 @@ footer {
             <td style="padding:8px 12px;">Enterprise</td>
             <td style="padding:8px 12px;color:var(--crab);font-weight:600;">6.8B phones</td>
           </tr>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:8px 12px;color:var(--text-dim);">月费 (典型用户)</td>
+            <td style="padding:8px 12px;">$15-30 API<br><span style="font-size:9px;color:var(--text-muted);">+ 自托管成本</span></td>
+            <td style="padding:8px 12px;">$10-20 API<br><span style="font-size:9px;color:var(--text-muted);">+ 自托管成本</span></td>
+            <td style="padding:8px 12px;">$15-40 API<br><span style="font-size:9px;color:var(--text-muted);">仅支持 Anthropic</span></td>
+            <td style="padding:8px 12px;">Enterprise<br><span style="font-size:9px;color:var(--text-muted);">定制报价</span></td>
+            <td style="padding:8px 12px;color:var(--green);font-weight:600;">~¥40/月<br><span style="font-size:9px;color:var(--text-muted);">全包 (Coding Plan)</span></td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:8px 12px;color:var(--text-dim);">安全记录</td>
+            <td style="padding:8px 12px;color:var(--red);">9 CVE · 135K 暴露<br><span style="font-size:9px;">36% 恶意插件</span></td>
+            <td style="padding:8px 12px;color:var(--green);">0 CVE · 允许列表</td>
+            <td style="padding:8px 12px;color:var(--green);">0 CVE · 容器隔离</td>
+            <td style="padding:8px 12px;color:var(--green);">0 CVE · TEE</td>
+            <td style="padding:8px 12px;color:var(--green);font-weight:600;">0 CVE · 双层甲壳<br><span style="font-size:9px;">OS沙箱+WASM</span></td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:8px 12px;color:var(--text-dim);">每请求 Token</td>
+            <td style="padding:8px 12px;color:var(--red);">~17,246<br><span style="font-size:9px;color:var(--text-muted);">系统提示+工具+历史</span></td>
+            <td style="padding:8px 12px;">不详</td>
+            <td style="padding:8px 12px;">不详</td>
+            <td style="padding:8px 12px;">不详</td>
+            <td style="padding:8px 12px;color:var(--green);font-weight:600;">~599<br><span style="font-size:9px;color:var(--text-muted);">精准上下文夹取</span></td>
+          </tr>
           <tr>
-            <td style="padding:8px 12px;color:var(--text-dim);">卖的感觉</td>
-            <td style="padding:8px 12px;color:var(--red);">被黑的人</td>
-            <td style="padding:8px 12px;">硬核 Rust</td>
-            <td style="padding:8px 12px;">逃跑信号</td>
-            <td style="padding:8px 12px;">CTO 故事</td>
-            <td style="padding:8px 12px;color:var(--crab);font-weight:600;">口袋管家</td>
+            <td style="padding:8px 12px;color:var(--text-dim);">内存占用</td>
+            <td style="padding:8px 12px;color:var(--red);">~1.2 GB</td>
+            <td style="padding:8px 12px;color:var(--green);">&lt;5 MB</td>
+            <td style="padding:8px 12px;">~150 MB</td>
+            <td style="padding:8px 12px;">~30 MB</td>
+            <td style="padding:8px 12px;color:var(--green);font-weight:600;">&lt;10 MB 端侧</td>
           </tr>
         </tbody>
       </table>
