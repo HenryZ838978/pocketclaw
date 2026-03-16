@@ -19,6 +19,8 @@
   --yellow: #fbbf24;
   --yellow-dim: rgba(251,191,36,0.15);
   --red: #f87171;
+  --blue: #60a5fa;
+  --blue-dim: rgba(96,165,250,0.15);
   --text: #e5e5e5;
   --text-dim: #737373;
   --text-muted: #525252;
@@ -105,7 +107,6 @@ h2 {
   border-bottom: 1px solid var(--border);
 }
 
-/* ── Progress Ring ── */
 .progress-ring-wrap {
   display:flex; align-items:center; gap:32px;
   margin-bottom:24px;
@@ -147,7 +148,6 @@ h2 {
 .progress-detail .wip { color: var(--yellow); }
 .progress-detail .todo { color: var(--text-muted); }
 
-/* ── Stats ── */
 .stat-grid {
   display:grid;
   grid-template-columns: 1fr 1fr;
@@ -174,7 +174,6 @@ h2 {
 .stat.highlight .value { color: var(--crab); }
 .stat.green .value { color: var(--green); }
 
-/* ── Architecture ── */
 .arch-flow {
   display: flex;
   align-items: center;
@@ -208,7 +207,6 @@ h2 {
   flex-shrink:0;
 }
 
-/* ── Module status ── */
 .module-list { list-style:none; }
 
 .module-list li {
@@ -238,68 +236,28 @@ h2 {
 .module-name { font-weight:600; flex:1; }
 .module-lines { color: var(--text-muted); font-size:11px; }
 
-/* ── Test results ── */
-.test-card {
+.tool-grid {
+  display:grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 8px;
+}
+
+.tool-chip {
   background: var(--surface2);
   border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 16px;
-  margin-bottom: 12px;
+  border-radius: 6px;
+  padding: 8px 10px;
+  font-size: 10px;
+  text-align: center;
 }
 
-.test-card .app { font-size:10px; color:var(--text-dim); letter-spacing:1px; text-transform:uppercase; }
-.test-card .title { font-weight:600; margin:4px 0; font-size:14px; }
-.test-card .body { color:var(--text-dim); font-size:12px; margin-bottom:8px; }
+.tool-chip .tid { font-weight:600; color:var(--text); display:block; margin-bottom:2px; }
+.tool-chip .risk { font-size:8px; letter-spacing:1px; }
+.tool-chip .risk.l0 { color:var(--green); }
+.tool-chip .risk.l1 { color:var(--blue); }
+.tool-chip .risk.l2 { color:var(--yellow); }
+.tool-chip .risk.l3 { color:var(--red); }
 
-.test-card .suggestions {
-  display:flex; gap:6px; flex-wrap:wrap;
-}
-
-.test-card .suggestions span {
-  background: var(--crab-glow);
-  color: var(--crab);
-  padding: 3px 10px;
-  border-radius: 20px;
-  font-size:11px;
-}
-
-.test-card .meta {
-  display:flex; gap:16px; margin-top:10px;
-  font-size:10px; color:var(--text-muted);
-}
-
-.test-card .meta .saved { color: var(--green); }
-
-/* ── Timeline ── */
-.timeline { position:relative; padding-left:20px; }
-.timeline::before {
-  content:''; position:absolute; left:5px; top:4px; bottom:4px;
-  width:1px; background:var(--border);
-}
-
-.timeline-item {
-  position:relative; padding: 0 0 16px 16px;
-  font-size:12px; line-height:1.6;
-}
-
-.timeline-item::before {
-  content:''; position:absolute;
-  left:-19px; top:6px;
-  width:9px; height:9px;
-  border-radius:50%;
-  background: var(--crab);
-  border: 2px solid var(--bg);
-}
-
-.timeline-item .time {
-  font-size:10px; color:var(--text-muted);
-}
-
-.timeline-item .event {
-  color: var(--text-dim);
-}
-
-/* ── Next Steps ── */
 .next-list { list-style:none; }
 .next-list li {
   padding: 8px 0;
@@ -318,7 +276,6 @@ h2 {
 .priority.p1 { background:var(--yellow-dim); color:var(--yellow); }
 .priority.p2 { background:var(--surface2); color:var(--text-muted); }
 
-/* ── Footer ── */
 footer {
   position:relative; z-index:1;
   border-top: 1px solid var(--border);
@@ -344,13 +301,13 @@ footer {
 
 <header>
   <div class="logo">
-    <span class="crab-emoji">🦀</span>
-    <span class="name">CrabAgent</span>
+    <span class="crab-emoji">🦞</span>
+    <span class="name">PocketClaw</span>
   </div>
-  <div class="tagline">Project Carcinization — Agent 演化的蟹化终态</div>
+  <div class="tagline">Project Carcinization — 口袋里的管家 · 移动端原生 AI Agent</div>
   <div class="date">
-    <div class="phase">PHASE 0 — SPRINT 1</div>
-    2026-03-10 · Day 1
+    <div class="phase">PHASE 0 — SPRINT 3</div>
+    2026-03-15 · v0.4.0
   </div>
 </header>
 
@@ -365,22 +322,24 @@ footer {
           <circle class="bg" cx="70" cy="70" r="60" />
           <circle class="fg" cx="70" cy="70" r="60"
             stroke-dasharray="377"
-            stroke-dashoffset="226" />
+            stroke-dashoffset="94" />
         </svg>
         <div class="label">
-          <div class="pct">40%</div>
+          <div class="pct">75%</div>
           <div class="sub">Phase 0</div>
         </div>
       </div>
       <div class="progress-detail">
-        <div class="done">✓ 战略定位 & 竞品调研</div>
-        <div class="done">✓ 云脑 Rust 全链路</div>
-        <div class="done">✓ Android 骨架代码</div>
-        <div class="done">✓ LLM 接入 (MiniMax-M2.5)</div>
-        <div class="wip">◑ Embedding 路由 (Stub)</div>
-        <div class="wip">◑ WASM 沙箱 (骨架)</div>
-        <div class="todo">○ Android 编译 & 真机</div>
-        <div class="todo">○ Widget + 月报卡片</div>
+        <div class="done">✓ Serverless 架构</div>
+        <div class="done">✓ 16 个内置工具</div>
+        <div class="done">✓ 安全四件套</div>
+        <div class="done">✓ 上下文动态精简</div>
+        <div class="done">✓ 养成系统 + 技能</div>
+        <div class="done">✓ 4-Tab UI 重构</div>
+        <div class="done">✓ STT / TTS 集成</div>
+        <div class="done">✓ 4 平台消息桥</div>
+        <div class="wip">◑ 真机端到端测试</div>
+        <div class="todo">○ Vision (截图+多模态)</div>
       </div>
     </div>
   </section>
@@ -390,221 +349,159 @@ footer {
     <h2>Codebase</h2>
     <div class="stat-grid">
       <div class="stat highlight">
-        <div class="value">1,200</div>
-        <div class="unit">Lines of Rust</div>
-      </div>
-      <div class="stat">
-        <div class="value">397</div>
+        <div class="value">19.4K</div>
         <div class="unit">Lines of Kotlin</div>
       </div>
       <div class="stat">
-        <div class="value">5</div>
-        <div class="unit">Rust Crates</div>
+        <div class="value">1.2K</div>
+        <div class="unit">Lines of Rust (Cloud)</div>
       </div>
       <div class="stat">
-        <div class="value">7</div>
-        <div class="unit">Kotlin Files</div>
+        <div class="value">95</div>
+        <div class="unit">Kotlin Source Files</div>
+      </div>
+      <div class="stat">
+        <div class="value">16</div>
+        <div class="unit">Built-in Tools</div>
       </div>
       <div class="stat green">
         <div class="value">0</div>
         <div class="unit">Compiler Errors</div>
       </div>
       <div class="stat">
-        <div class="value">34</div>
-        <div class="unit">Source Files Total</div>
+        <div class="value">420</div>
+        <div class="unit">APK Size (MB)</div>
       </div>
     </div>
   </section>
 
-  <!-- ── LLM Test Results ── -->
+  <!-- ── Tool System ── -->
   <section>
-    <h2>Live Test Results</h2>
-    <div class="test-card">
-      <div class="app">com.tencent.mm · 工作群</div>
-      <div class="title" style="color:var(--red)">⚡ HIGH — 老板通知下午三点开会</div>
-      <div class="body">老板要求下午三点全员开会，并发送上周工作报告</div>
-      <div class="suggestions">
-        <span>好的，我会准时参加</span>
-        <span>收到，马上发报告</span>
-        <span>会议在哪里？</span>
-      </div>
-      <div class="meta">
-        <span>475 tokens</span>
-        <span class="saved">↓ 节省 10,545</span>
-        <span>4.3s</span>
-      </div>
+    <h2>Tool System — 16 Built-in</h2>
+    <div class="tool-grid">
+      <div class="tool-chip"><span class="tid">file_read</span><span class="risk l0">L0 READ</span></div>
+      <div class="tool-chip"><span class="tid">file_write</span><span class="risk l1">L1 WRITE</span></div>
+      <div class="tool-chip"><span class="tid">file_list</span><span class="risk l0">L0 READ</span></div>
+      <div class="tool-chip"><span class="tid">file_delete</span><span class="risk l2">L2 DESTRUCT</span></div>
+      <div class="tool-chip"><span class="tid">screen_read</span><span class="risk l0">L0 READ</span></div>
+      <div class="tool-chip"><span class="tid">screen_tap</span><span class="risk l3">L3 SYSTEM</span></div>
+      <div class="tool-chip"><span class="tid">screen_swipe</span><span class="risk l3">L3 SYSTEM</span></div>
+      <div class="tool-chip"><span class="tid">screen_input</span><span class="risk l1">L1 WRITE</span></div>
+      <div class="tool-chip"><span class="tid">screen_back</span><span class="risk l3">L3 SYSTEM</span></div>
+      <div class="tool-chip"><span class="tid">schedule_create</span><span class="risk l1">L1 WRITE</span></div>
+      <div class="tool-chip"><span class="tid">schedule_list</span><span class="risk l0">L0 READ</span></div>
+      <div class="tool-chip"><span class="tid">tg_send</span><span class="risk l2">L2 DESTRUCT</span></div>
+      <div class="tool-chip"><span class="tid">clipboard_read</span><span class="risk l0">L0 READ</span></div>
+      <div class="tool-chip"><span class="tid">clipboard_write</span><span class="risk l1">L1 WRITE</span></div>
+      <div class="tool-chip"><span class="tid">app_launch</span><span class="risk l1">L1 WRITE</span></div>
+      <div class="tool-chip"><span class="tid">web_search</span><span class="risk l0">L0 READ</span></div>
     </div>
-    <div class="test-card">
-      <div class="app">com.tencent.mm · 家人群</div>
-      <div class="title">📋 NORMAL — 妈邀请周末回家吃饭</div>
-      <div class="body">妈问周末回不回去，爸做了红烧肉</div>
-      <div class="suggestions">
-        <span>这周回去吃</span>
-        <span>有事不回了</span>
-        <span>看情况再说</span>
-      </div>
-      <div class="meta">
-        <span>657 tokens</span>
-        <span class="saved">↓ 节省 10,363</span>
-        <span>8.2s</span>
-      </div>
-    </div>
-    <div class="test-card">
-      <div class="app">com.alibaba.android.rimet · 钉钉</div>
-      <div class="title">📋 NORMAL — 钉钉审批通知</div>
-      <div class="body">一条新审批单待处理</div>
-      <div class="suggestions"><span>打开钉钉查看</span></div>
-      <div class="meta">
-        <span>446 tokens</span>
-        <span class="saved">↓ 节省 10,574</span>
-        <span>4.3s</span>
-      </div>
+    <div style="margin-top:16px;font-size:10px;color:var(--text-muted);line-height:1.6;">
+      L0=自动放行 · L1=首次授权 · L2=每次弹窗 · L3=每次弹窗+30s 自动撤销
     </div>
   </section>
 
-  <!-- ── Architecture + Security ── -->
+  <!-- ── Architecture ── -->
   <section class="span2">
-    <h2>Architecture — 云脑 + 端壳</h2>
+    <h2>Architecture — Serverless On-Device</h2>
     <div style="margin-bottom:20px;">
-      <div style="font-size:10px;color:var(--text-muted);margin-bottom:8px;">PHONE → CLOUD → PHONE</div>
+      <div style="font-size:10px;color:var(--text-muted);margin-bottom:8px;">SINGLE APK · NO SERVER · LOCAL + CLOUD SWITCHABLE</div>
       <div class="arch-flow">
         <div class="arch-node active">
-          <span class="label">端壳 Android</span>
-          <span class="name">📱 Notification<br>Listener</span>
+          <span class="label">用户输入</span>
+          <span class="name">🎙️ STT /<br>Text / Voice</span>
         </div>
         <span class="arch-arrow">→</span>
         <div class="arch-node active">
-          <span class="label">左螯</span>
-          <span class="name">🔍 Semantic<br>Router</span>
+          <span class="label">Claw 层</span>
+          <span class="name">🧠 SOUL +<br>PromptAssembler</span>
         </div>
         <span class="arch-arrow">→</span>
         <div class="arch-node active">
-          <span class="label">右螯</span>
-          <span class="name">📋 Context<br>Fetcher</span>
+          <span class="label">推理</span>
+          <span class="name">⚡ Local LLM<br>或 Cloud API</span>
         </div>
         <span class="arch-arrow">→</span>
         <div class="arch-node active">
-          <span class="label">大脑</span>
-          <span class="name">🧠 MiniMax<br>M2.5</span>
-        </div>
-        <span class="arch-arrow">→</span>
-        <div class="arch-node" style="border-color:var(--yellow)">
-          <span class="label">甲壳</span>
-          <span class="name" style="color:var(--yellow)">🛡️ WASM<br>Sandbox</span>
+          <span class="label">解析</span>
+          <span class="name">🔧 ToolParser<br>+ ToolExecutor</span>
         </div>
         <span class="arch-arrow">→</span>
         <div class="arch-node active">
-          <span class="label">端壳 Android</span>
-          <span class="name">🔔 Action<br>Executor</span>
+          <span class="label">安全</span>
+          <span class="name">🛡️ Permission<br>Guard</span>
+        </div>
+        <span class="arch-arrow">→</span>
+        <div class="arch-node active">
+          <span class="label">执行</span>
+          <span class="name">🔔 Tool<br>+ 二次生成</span>
         </div>
       </div>
     </div>
 
     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;">
       <div>
-        <div style="font-size:10px;color:var(--text-muted);margin-bottom:8px;letter-spacing:2px;">CLOUD (RUST)</div>
+        <div style="font-size:10px;color:var(--text-muted);margin-bottom:8px;letter-spacing:2px;">CLAW LAYER (1.9K LoC)</div>
         <ul class="module-list">
-          <li><span class="badge done">DONE</span><span class="module-name">crab-protocol</span><span class="module-lines">122 LoC</span></li>
-          <li><span class="badge done">DONE</span><span class="module-name">crab-pincers</span><span class="module-lines">139 LoC</span></li>
-          <li><span class="badge done">DONE</span><span class="module-name">crab-brain</span><span class="module-lines">334 LoC</span></li>
-          <li><span class="badge done">DONE</span><span class="module-name">crab-server</span><span class="module-lines">118 LoC</span></li>
-          <li><span class="badge wip">WIP</span><span class="module-name">crab-carapace</span><span class="module-lines">90 LoC</span></li>
+          <li><span class="badge done">DONE</span><span class="module-name">ToolRegistry (16)</span><span class="module-lines">65 LoC</span></li>
+          <li><span class="badge done">DONE</span><span class="module-name">ToolExecutor</span><span class="module-lines">70 LoC</span></li>
+          <li><span class="badge done">DONE</span><span class="module-name">ToolParser</span><span class="module-lines">40 LoC</span></li>
+          <li><span class="badge done">DONE</span><span class="module-name">PermissionGuard</span><span class="module-lines">70 LoC</span></li>
+          <li><span class="badge done">DONE</span><span class="module-name">SOUL Prompt</span><span class="module-lines">adaptive</span></li>
+          <li><span class="badge done">DONE</span><span class="module-name">ContextBudget</span><span class="module-lines">local/cloud</span></li>
+          <li><span class="badge done">DONE</span><span class="module-name">BondEngine</span><span class="module-lines">growth sys</span></li>
+          <li><span class="badge done">DONE</span><span class="module-name">SkillRouter</span><span class="module-lines">keyword</span></li>
         </ul>
       </div>
       <div>
-        <div style="font-size:10px;color:var(--text-muted);margin-bottom:8px;letter-spacing:2px;">MOBILE (KOTLIN)</div>
+        <div style="font-size:10px;color:var(--text-muted);margin-bottom:8px;letter-spacing:2px;">APP LAYER (3.5K LoC)</div>
         <ul class="module-list">
-          <li><span class="badge done">DONE</span><span class="module-name">NotificationListener</span><span class="module-lines">116 LoC</span></li>
-          <li><span class="badge done">DONE</span><span class="module-name">CloudClient</span><span class="module-lines">65 LoC</span></li>
-          <li><span class="badge done">DONE</span><span class="module-name">ActionExecutor</span><span class="module-lines">98 LoC</span></li>
-          <li><span class="badge done">DONE</span><span class="module-name">Protocol</span><span class="module-lines">62 LoC</span></li>
-          <li><span class="badge planned">NEXT</span><span class="module-name">Widget</span><span class="module-lines">—</span></li>
+          <li><span class="badge done">DONE</span><span class="module-name">ChatScreen</span><span class="module-lines">364 LoC</span></li>
+          <li><span class="badge done">DONE</span><span class="module-name">SettingsScreen</span><span class="module-lines">360 LoC</span></li>
+          <li><span class="badge done">DONE</span><span class="module-name">ToolConfirmDialog</span><span class="module-lines">60 LoC</span></li>
+          <li><span class="badge done">DONE</span><span class="module-name">MainViewModel</span><span class="module-lines">487 LoC</span></li>
+          <li><span class="badge done">DONE</span><span class="module-name">MessageBridge (4)</span><span class="module-lines">4 platforms</span></li>
+          <li><span class="badge done">DONE</span><span class="module-name">ScreenControlSvc</span><span class="module-lines">132 LoC</span></li>
+          <li><span class="badge done">DONE</span><span class="module-name">TaskWorker</span><span class="module-lines">WorkManager</span></li>
+          <li><span class="badge done">DONE</span><span class="module-name">DashScopeProvider</span><span class="module-lines">stream</span></li>
         </ul>
       </div>
       <div>
-        <div style="font-size:10px;color:var(--crab);margin-bottom:8px;letter-spacing:2px;">🔒 SECURITY</div>
+        <div style="font-size:10px;color:var(--crab);margin-bottom:8px;letter-spacing:2px;">🛡️ SECURITY</div>
         <ul class="module-list">
           <li style="border-color:rgba(255,107,53,0.15);">
-            <span class="badge done" style="background:var(--crab-glow);color:var(--crab);">双层</span>
-            <span class="module-name" style="font-size:11px;">端侧: Android OS 沙箱<br><span style="color:var(--text-muted);font-weight:400;font-size:10px;">每个 App 系统级隔离，不造轮子</span></span>
+            <span class="badge done" style="background:var(--crab-glow);color:var(--crab);">L0-L3</span>
+            <span class="module-name" style="font-size:11px;">PermissionGuard<br><span style="color:var(--text-muted);font-weight:400;font-size:10px;">4 级风险分层 + UI 弹窗确认</span></span>
           </li>
           <li style="border-color:rgba(255,107,53,0.15);">
-            <span class="badge done" style="background:var(--crab-glow);color:var(--crab);">双层</span>
-            <span class="module-name" style="font-size:11px;">云侧: WASM 密封沙箱<br><span style="color:var(--text-muted);font-weight:400;font-size:10px;">启动 &lt;1ms · 内存 2MB · 无 fs/net</span></span>
+            <span class="badge done" style="background:var(--crab-glow);color:var(--crab);">LOG</span>
+            <span class="module-name" style="font-size:11px;">AuditLog<br><span style="color:var(--text-muted);font-weight:400;font-size:10px;">所有工具调用可审计 · Settings 可查看</span></span>
           </li>
           <li style="border-color:rgba(255,107,53,0.15);">
-            <span class="badge done" style="background:var(--green-dim);color:var(--green);">RUST</span>
-            <span class="module-name" style="font-size:11px;">编译期内存安全<br><span style="color:var(--text-muted);font-weight:400;font-size:10px;">消除 buffer overflow / use-after-free</span></span>
+            <span class="badge done" style="background:var(--green-dim);color:var(--green);">PATH</span>
+            <span class="module-name" style="font-size:11px;">PathSandbox<br><span style="color:var(--text-muted);font-weight:400;font-size:10px;">白名单目录 · 系统路径一律拦截</span></span>
           </li>
           <li style="border-color:rgba(255,107,53,0.15);">
-            <span class="badge done" style="background:var(--green-dim);color:var(--green);">0</span>
-            <span class="module-name" style="font-size:11px;">无插件市场<br><span style="color:var(--text-muted);font-weight:400;font-size:10px;">零供应链攻击面 (vs OpenClaw 36%)</span></span>
+            <span class="badge done" style="background:var(--green-dim);color:var(--green);">RATE</span>
+            <span class="module-name" style="font-size:11px;">RateLimiter<br><span style="color:var(--text-muted);font-weight:400;font-size:10px;">每轮上限 · 冷却期 · 连续失败熔断</span></span>
           </li>
         </ul>
       </div>
-    </div>
-  </section>
-
-  <!-- ── Token Economy ── -->
-  <section>
-    <h2>Token Economy (12 Skills)</h2>
-    <div style="text-align:center;margin:16px 0;">
-      <div style="font-size:48px;font-weight:800;color:var(--green);">94.9%</div>
-      <div style="font-size:11px;color:var(--text-dim);margin-top:4px;">INPUT TOKEN SAVINGS vs OpenClaw</div>
-    </div>
-    <div style="margin:16px 0;">
-      <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text-muted);margin-bottom:4px;">
-        <span>🦀 PocketClaw: ~599 tok/req</span>
-        <span>OpenClaw 文档: ~17,246 tok/req</span>
-      </div>
-      <div style="height:8px;background:var(--surface2);border-radius:4px;overflow:hidden;">
-        <div style="height:100%;width:3.5%;background:var(--crab);border-radius:4px;box-shadow:0 0 8px var(--crab);"></div>
-      </div>
-    </div>
-    <div style="font-size:9px;color:var(--text-muted);margin-bottom:12px;line-height:1.6;">
-      OpenClaw 基线来源: 系统提示 ~9,600 tok + 工具 Schema ~5,000 tok (23 tools) + Skills ~546 tok (12 skills) + 会话历史 ~2,000 tok<br>
-      <span style="color:var(--text-dim);">Source: docs.openclaw.ai/concepts/context · GitHub Issue #28278</span>
-    </div>
-    <div class="stat-grid">
-      <div class="stat highlight">
-        <div class="value">599</div>
-        <div class="unit">Avg Tokens / Request</div>
-      </div>
-      <div class="stat green">
-        <div class="value">16.6K</div>
-        <div class="unit">Avg Saved vs OpenClaw</div>
-      </div>
-      <div class="stat">
-        <div class="value">12</div>
-        <div class="unit">Skills Registered</div>
-      </div>
-      <div class="stat">
-        <div class="value">5</div>
-        <div class="unit">Scenarios Tested</div>
-      </div>
-    </div>
-    <div style="margin-top:12px;font-size:10px;color:var(--text-muted);line-height:1.8;">
-      T1 老板开会 <span style="color:var(--text-dim);">509 tok</span> ·
-      T2 妈妈周末 <span style="color:var(--text-dim);">593 tok</span> ·
-      T3 钉钉审批 <span style="color:var(--text-dim);">606 tok</span> ·
-      T4 天气查询 <span style="color:var(--text-dim);">749 tok</span> ·
-      T5 支付记账 <span style="color:var(--text-dim);">538 tok</span>
     </div>
   </section>
 
   <!-- ── Competitive Position ── -->
   <section class="span2">
-    <h2>Competitive Landscape</h2>
+    <h2>Competitive Landscape — PocketClaw vs Claw 生态</h2>
     <div style="overflow-x:auto;">
       <table style="width:100%;font-size:11px;border-collapse:collapse;">
         <thead>
           <tr style="border-bottom:1px solid var(--border);color:var(--text-muted);text-align:left;">
             <th style="padding:8px 12px;font-weight:600;"></th>
             <th style="padding:8px 12px;">OpenClaw</th>
-            <th style="padding:8px 12px;">ZeroClaw</th>
             <th style="padding:8px 12px;">NanoClaw</th>
-            <th style="padding:8px 12px;">IronClaw</th>
-            <th style="padding:8px 12px;color:var(--crab);font-weight:800;">PocketClaw</th>
+            <th style="padding:8px 12px;">AndroidForClaw</th>
+            <th style="padding:8px 12px;color:var(--crab);font-weight:800;">PocketClaw v0.4</th>
           </tr>
         </thead>
         <tbody>
@@ -612,52 +509,95 @@ footer {
             <td style="padding:8px 12px;color:var(--text-dim);">平台</td>
             <td style="padding:8px 12px;">Desktop</td>
             <td style="padding:8px 12px;">Desktop</td>
-            <td style="padding:8px 12px;">Desktop</td>
-            <td style="padding:8px 12px;">Cloud</td>
-            <td style="padding:8px 12px;color:var(--crab);font-weight:600;">📱 Mobile</td>
+            <td style="padding:8px 12px;">Android</td>
+            <td style="padding:8px 12px;color:var(--crab);font-weight:600;">📱 Android Native</td>
           </tr>
           <tr style="border-bottom:1px solid var(--border);">
-            <td style="padding:8px 12px;color:var(--text-dim);">Target Users</td>
-            <td style="padding:8px 12px;">28M devs</td>
-            <td style="padding:8px 12px;">Rustaceans</td>
-            <td style="padding:8px 12px;">Claude users</td>
-            <td style="padding:8px 12px;">Enterprise</td>
-            <td style="padding:8px 12px;color:var(--crab);font-weight:600;">6.8B phones</td>
+            <td style="padding:8px 12px;color:var(--text-dim);">Server 依赖</td>
+            <td style="padding:8px 12px;color:var(--red);">是 (Node.js)</td>
+            <td style="padding:8px 12px;color:var(--red);">是 (Claude API)</td>
+            <td style="padding:8px 12px;color:var(--red);">是 (OpenAI API)</td>
+            <td style="padding:8px 12px;color:var(--green);font-weight:600;">❌ Serverless<br><span style="font-size:9px;">本地 LLM + 可选云 API</span></td>
           </tr>
           <tr style="border-bottom:1px solid var(--border);">
-            <td style="padding:8px 12px;color:var(--text-dim);">月费 (典型用户)</td>
-            <td style="padding:8px 12px;">$15-30 API<br><span style="font-size:9px;color:var(--text-muted);">+ 自托管成本</span></td>
-            <td style="padding:8px 12px;">$10-20 API<br><span style="font-size:9px;color:var(--text-muted);">+ 自托管成本</span></td>
-            <td style="padding:8px 12px;">$15-40 API<br><span style="font-size:9px;color:var(--text-muted);">仅支持 Anthropic</span></td>
-            <td style="padding:8px 12px;">Enterprise<br><span style="font-size:9px;color:var(--text-muted);">定制报价</span></td>
-            <td style="padding:8px 12px;color:var(--green);font-weight:600;">~¥40/月<br><span style="font-size:9px;color:var(--text-muted);">全包 (Coding Plan)</span></td>
+            <td style="padding:8px 12px;color:var(--text-dim);">内置工具</td>
+            <td style="padding:8px 12px;">23</td>
+            <td style="padding:8px 12px;">7</td>
+            <td style="padding:8px 12px;">20+</td>
+            <td style="padding:8px 12px;color:var(--crab);font-weight:600;">16<br><span style="font-size:9px;">文件/屏幕/定时/消息/搜索/剪贴板</span></td>
           </tr>
           <tr style="border-bottom:1px solid var(--border);">
-            <td style="padding:8px 12px;color:var(--text-dim);">安全记录</td>
-            <td style="padding:8px 12px;color:var(--red);">9 CVE · 135K 暴露<br><span style="font-size:9px;">36% 恶意插件</span></td>
-            <td style="padding:8px 12px;color:var(--green);">0 CVE · 允许列表</td>
-            <td style="padding:8px 12px;color:var(--green);">0 CVE · 容器隔离</td>
-            <td style="padding:8px 12px;color:var(--green);">0 CVE · TEE</td>
-            <td style="padding:8px 12px;color:var(--green);font-weight:600;">0 CVE · 双层甲壳<br><span style="font-size:9px;">OS沙箱+WASM</span></td>
+            <td style="padding:8px 12px;color:var(--text-dim);">安全层</td>
+            <td style="padding:8px 12px;color:var(--red);">权限模型<br><span style="font-size:9px;">36% 恶意插件</span></td>
+            <td style="padding:8px 12px;color:var(--green);">容器隔离</td>
+            <td style="padding:8px 12px;color:var(--yellow);">基础确认</td>
+            <td style="padding:8px 12px;color:var(--green);font-weight:600;">4 级分层<br><span style="font-size:9px;">Guard+Audit+Sandbox+RateLimit</span></td>
           </tr>
           <tr style="border-bottom:1px solid var(--border);">
-            <td style="padding:8px 12px;color:var(--text-dim);">每请求 Token</td>
-            <td style="padding:8px 12px;color:var(--red);">~17,246<br><span style="font-size:9px;color:var(--text-muted);">系统提示+工具+历史</span></td>
+            <td style="padding:8px 12px;color:var(--text-dim);">上下文管理</td>
+            <td style="padding:8px 12px;">~17K tok/req</td>
+            <td style="padding:8px 12px;">streaming</td>
             <td style="padding:8px 12px;">不详</td>
-            <td style="padding:8px 12px;">不详</td>
-            <td style="padding:8px 12px;">不详</td>
-            <td style="padding:8px 12px;color:var(--green);font-weight:600;">~599<br><span style="font-size:9px;color:var(--text-muted);">精准上下文夹取</span></td>
+            <td style="padding:8px 12px;color:var(--green);font-weight:600;">动态预算<br><span style="font-size:9px;">local 2K / cloud 6K · 工具结果摘要</span></td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:8px 12px;color:var(--text-dim);">养成系统</td>
+            <td style="padding:8px 12px;color:var(--text-muted);">✗</td>
+            <td style="padding:8px 12px;color:var(--text-muted);">✗</td>
+            <td style="padding:8px 12px;color:var(--text-muted);">✗</td>
+            <td style="padding:8px 12px;color:var(--crab);font-weight:600;">✓ Bond Engine<br><span style="font-size:9px;">5 阶段 · 记忆 · 特质 · XP</span></td>
           </tr>
           <tr>
-            <td style="padding:8px 12px;color:var(--text-dim);">内存占用</td>
-            <td style="padding:8px 12px;color:var(--red);">~1.2 GB</td>
-            <td style="padding:8px 12px;color:var(--green);">&lt;5 MB</td>
-            <td style="padding:8px 12px;">~150 MB</td>
-            <td style="padding:8px 12px;">~30 MB</td>
-            <td style="padding:8px 12px;color:var(--green);font-weight:600;">&lt;10 MB 端侧</td>
+            <td style="padding:8px 12px;color:var(--text-dim);">月费</td>
+            <td style="padding:8px 12px;">$15-30</td>
+            <td style="padding:8px 12px;">$15-40</td>
+            <td style="padding:8px 12px;">$5-20</td>
+            <td style="padding:8px 12px;color:var(--green);font-weight:600;">¥0 本地<br><span style="font-size:9px;">或 ~¥40/月 云 API</span></td>
           </tr>
         </tbody>
       </table>
+    </div>
+  </section>
+
+  <!-- ── Code Breakdown ── -->
+  <section>
+    <h2>Code Breakdown</h2>
+    <div style="margin-bottom:16px;">
+      <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text-muted);margin-bottom:4px;">
+        <span>Claw Layer (自研)</span>
+        <span>1,908 LoC · 27 files</span>
+      </div>
+      <div style="height:8px;background:var(--surface2);border-radius:4px;overflow:hidden;">
+        <div style="height:100%;width:10%;background:var(--crab);border-radius:4px;box-shadow:0 0 8px var(--crab);"></div>
+      </div>
+    </div>
+    <div style="margin-bottom:16px;">
+      <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text-muted);margin-bottom:4px;">
+        <span>App Layer (UI/Services)</span>
+        <span>3,469 LoC · 23 files</span>
+      </div>
+      <div style="height:8px;background:var(--surface2);border-radius:4px;overflow:hidden;">
+        <div style="height:100%;width:18%;background:var(--blue);border-radius:4px;box-shadow:0 0 8px rgba(96,165,250,0.3);"></div>
+      </div>
+    </div>
+    <div style="margin-bottom:16px;">
+      <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text-muted);margin-bottom:4px;">
+        <span>LLM Hub Engine (fork)</span>
+        <span>13,949 LoC · 42 files</span>
+      </div>
+      <div style="height:8px;background:var(--surface2);border-radius:4px;overflow:hidden;">
+        <div style="height:100%;width:72%;background:var(--text-muted);border-radius:4px;"></div>
+      </div>
+    </div>
+    <div class="stat-grid" style="margin-top:20px;">
+      <div class="stat highlight">
+        <div class="value">5.4K</div>
+        <div class="unit">Original Code (Claw+App)</div>
+      </div>
+      <div class="stat">
+        <div class="value">14K</div>
+        <div class="unit">Engine (Fork)</div>
+      </div>
     </div>
   </section>
 
@@ -665,55 +605,58 @@ footer {
   <section>
     <h2>Next Steps</h2>
     <ul class="next-list">
-      <li><span class="priority p0">P0</span>安装 Android SDK，验证编译</li>
-      <li><span class="priority p0">P0</span>接入真实 Embedding 替代 Stub</li>
-      <li><span class="priority p1">P1</span>message_triage 编译为 WASM</li>
-      <li><span class="priority p1">P1</span>端到端 CLI 测试脚本</li>
-      <li><span class="priority p2">P2</span>Pixel 8 Pro 到货 → 真机部署</li>
+      <li><span class="priority p0">P0</span>真机端到端测试 — 验证工具调用 + STT + TTS</li>
+      <li><span class="priority p0">P0</span>调优 SOUL prompt — 让 Qwen-Plus 稳定输出 [T:] 格式</li>
+      <li><span class="priority p1">P1</span>Vision — 截图 + 多模态理解 (MediaProjection)</li>
+      <li><span class="priority p1">P1</span>Shell 执行工具 (adb shell 级，需额外安全审计)</li>
+      <li><span class="priority p1">P1</span>本地模型自动下载 (ModelScope CDN)</li>
+      <li><span class="priority p2">P2</span>联系人/短信/通话记录 访问</li>
       <li><span class="priority p2">P2</span>Widget 桌面小组件</li>
-      <li><span class="priority p2">P2</span>月报卡片（信号出口）</li>
+      <li><span class="priority p2">P2</span>月报卡片（信号出口：可截图可分享）</li>
     </ul>
   </section>
 
   <!-- ── Timeline ── -->
   <section class="span3">
-    <h2>Timeline — 2026-03-10</h2>
-    <div class="timeline">
-      <div class="timeline-item">
-        <div class="time">09:00</div>
-        <div class="event">完成 Claw 生态全景调研（OpenClaw / ZeroClaw / NanoClaw / IronClaw / FastClaw / MiniClaw）</div>
+    <h2>Timeline — Sprint 3 (2026-03-15)</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;">
+      <div>
+        <div style="font-size:10px;color:var(--crab);font-weight:600;margin-bottom:12px;letter-spacing:2px;">SPRINT 1 — MAR 10</div>
+        <div style="font-size:11px;line-height:2;color:var(--text-dim);">
+          ✓ 竞品全景调研 (6 个 Claw 项目)<br>
+          ✓ 移动端优先战略确立<br>
+          ✓ Rust 云脑 5 crate 803 LoC<br>
+          ✓ LLM 全链路跑通 (MiniMax-M2.5)<br>
+          ✓ Android 骨架 7 files 397 LoC<br>
+          ✓ 三场景实测通过 (微信/钉钉)
+        </div>
       </div>
-      <div class="timeline-item">
-        <div class="time">10:00</div>
-        <div class="event">更新 CARCINIZATION_PLAN — 钢剑（阶级幻象费）章节重写，基于真实竞品数据</div>
+      <div>
+        <div style="font-size:10px;color:var(--crab);font-weight:600;margin-bottom:12px;letter-spacing:2px;">SPRINT 2 — MAR 11-14</div>
+        <div style="font-size:11px;line-height:2;color:var(--text-dim);">
+          ✓ 架构转向 Serverless (Path C)<br>
+          ✓ Fork LLM-Hub 作为引擎层<br>
+          ✓ Qwen3-1.7B 本地推理 (llama.cpp)<br>
+          ✓ DashScope 云 API 双模式<br>
+          ✓ 养成系统 (Bond Engine) 5 阶段<br>
+          ✓ 自定义技能 + 关键词路由<br>
+          ✓ 首次 APK 构建成功 (420MB)<br>
+          ✓ 228+ 处 LLM Hub → PocketClaw 替换
+        </div>
       </div>
-      <div class="timeline-item">
-        <div class="time">11:00</div>
-        <div class="event">战略转向：从桌面优先 → 移动端优先。"口袋里的管家"定位确立。整份 PLAN 重写</div>
-      </div>
-      <div class="timeline-item">
-        <div class="time">12:00</div>
-        <div class="event">设备选型：Google Pixel 8 Pro（12GB RAM，后台存活最优）。已下单。不需要刷机</div>
-      </div>
-      <div class="timeline-item">
-        <div class="time">13:00</div>
-        <div class="event">Rust workspace 搭建：protocol / pincers / carapace / brain / server 五个 crate</div>
-      </div>
-      <div class="timeline-item">
-        <div class="time">14:00</div>
-        <div class="event">配置 USTC 国内镜像解决 crates.io 超时 | wasmtime v30 首次编译通过</div>
-      </div>
-      <div class="timeline-item">
-        <div class="time">14:30</div>
-        <div class="event">Android 端壳骨架完成：NotificationListener / CloudClient / ActionExecutor / ForegroundService / BootReceiver / MainActivity</div>
-      </div>
-      <div class="timeline-item">
-        <div class="time">15:00</div>
-        <div class="event">接入百炼 Coding Plan → "only for Coding Agents" 错误 → User-Agent: openclaw/2026.3.1 绕过</div>
-      </div>
-      <div class="timeline-item">
-        <div class="time">15:15</div>
-        <div class="event" style="color:var(--crab);font-weight:600;">🦀 全链路跑通！MiniMax-M2.5 三场景实测通过。CrabAgent 云脑已经活了。</div>
+      <div>
+        <div style="font-size:10px;color:var(--crab);font-weight:600;margin-bottom:12px;letter-spacing:2px;">SPRINT 3 — MAR 15</div>
+        <div style="font-size:11px;line-height:2;color:var(--text-dim);">
+          ✓ 16 个内置工具 (file/screen/schedule/msg/clip/web)<br>
+          ✓ 安全四件套 (Guard/Audit/Sandbox/Rate)<br>
+          ✓ L2/L3 确认弹窗 (CompletableDeferred)<br>
+          ✓ 暗/亮主题修复 (mutableStateOf)<br>
+          ✓ STT 语音输入 (SpeechRecognizer)<br>
+          ✓ 5→4 Tab 导航重构<br>
+          ✓ Settings 扩展 (权限/提醒/消息/审计)<br>
+          ✓ SOUL prompt 云端/本地双模式<br>
+          ✓ 全平台消息 handler 接入
+        </div>
       </div>
     </div>
   </section>
@@ -721,8 +664,8 @@ footer {
 </div>
 
 <footer>
-  <span>CrabAgent v0.1.0-alpha · Project Carcinization · 蟹化计划</span>
-  <span class="pulse" style="color:var(--crab);">● CLOUD BRAIN ONLINE</span>
+  <span>PocketClaw v0.4.0 · Project Carcinization · 口袋里的管家</span>
+  <span class="pulse" style="color:var(--crab);">● BUILD PASSING · 0 ERRORS</span>
 </footer>
 
 </body>

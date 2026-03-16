@@ -6,14 +6,16 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
-        android:name=".CrabApplication"
+        android:name=".PocketClawApplication"
         android:allowBackup="false"
-        android:icon="@drawable/ic_crab"
-        android:label="CrabAgent"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:label="PocketClaw"
         android:supportsRtl="true"
-        android:theme="@style/Theme.CrabAgent">
+        android:theme="@style/Theme.PocketClaw">
 
         <activity
             android:name=".MainActivity"
@@ -24,9 +26,8 @@
             </intent-filter>
         </activity>
 
-        <!-- The core: reads ALL notifications from ALL apps -->
         <service
-            android:name=".service.CrabNotificationListener"
+            android:name=".service.ClawNotificationListener"
             android:exported="true"
             android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
             <intent-filter>
@@ -34,13 +35,11 @@
             </intent-filter>
         </service>
 
-        <!-- Keeps the agent alive in background -->
         <service
-            android:name=".service.CrabForegroundService"
+            android:name=".service.ClawForegroundService"
             android:exported="false"
             android:foregroundServiceType="specialUse" />
 
-        <!-- Restart agent on device boot -->
         <receiver
             android:name=".receiver.BootReceiver"
             android:exported="true">

@@ -6,6 +6,22 @@ use serde::{Deserialize, Serialize};
 pub struct CloudResponse {
     pub actions: Vec<Action>,
     pub meta: ResponseMeta,
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub memories: Vec<ExtractedMemory>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ExtractedMemory {
+    #[serde(rename = "type")]
+    pub memory_type: String,
+    pub key: String,
+    pub value: String,
+    #[serde(default = "default_confidence")]
+    pub confidence: f32,
+}
+
+fn default_confidence() -> f32 {
+    0.5
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

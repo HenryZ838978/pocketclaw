@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.CrabAgent" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.PocketClaw" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">#FF6B35</item>
         <item name="colorPrimaryVariant">#CC5529</item>
         <item name="colorOnPrimary">#FFFFFF</item>

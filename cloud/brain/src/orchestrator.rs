@@ -6,7 +6,7 @@ use tracing::info;
 
 use crab_pincers::router::{EmbeddingProvider, SemanticRouter};
 use crab_pincers::ContextFetcher;
-use crab_protocol::{Action, CloudResponse, DeviceEvent, Priority, ResponseMeta};
+use crab_protocol::{Action, CloudResponse, DeviceEvent, ExtractedMemory, Priority, ResponseMeta};
 
 use crate::llm::{ChatMessage, LlmProvider, Role};
 
@@ -76,12 +76,14 @@ impl Orchestrator {
             .context("LLM call failed")?;
 
         let actions = parse_actions(&llm_response.content);
+        let memories = extract_memories(&llm_response.content);
         let latency = start.elapsed().as_millis() as u32;
 
         info!(
             skill = skill_id,
             tokens = llm_response.tokens_used,
             latency_ms = latency,
+            memories = memories.len(),
             "Event processed"
         );
 
@@ -94,6 +96,7 @@ impl Orchestrator {
                     .saturating_sub(llm_response.tokens_used),
                 latency_ms: latency,
             },
+            memories,
         })
     }
 }
@@ -117,8 +120,50 @@ fn parse_actions(llm_output: &str) -> Vec<Action> {
     // Fallback: wrap the raw text as a notification
     vec![Action::Notify {
         priority: Priority::Normal,
-        title: "🦀 CrabAgent".into(),
+        title: "🦀 PocketClaw".into(),
         body: llm_output.to_string(),
         suggestions: vec![],
     }]
+}
+
+fn extract_memories(llm_output: &str) -> Vec<ExtractedMemory> {
+    // Look for memory extraction markers in LLM output
+    // Format: [MEMORY:type:key:value:confidence]
+    let mut memories = Vec::new();
+
+    for line in llm_output.lines() {
+        let trimmed = line.trim();
+        if trimmed.starts_with("[MEMORY:") && trimmed.ends_with(']') {
+            let inner = &trimmed[8..trimmed.len() - 1];
+            let parts: Vec<&str> = inner.splitn(4, ':').collect();
+            if parts.len() >= 3 {
+                let confidence = parts.get(3)
+                    .and_then(|s| s.parse::<f32>().ok())
+                    .unwrap_or(0.5);
+
+                memories.push(ExtractedMemory {
+                    memory_type: parts[0].to_string(),
+                    key: parts[1].to_string(),
+                    value: parts[2].to_string(),
+                    confidence,
+                });
+            }
+        }
+    }
+
+    // Also try JSON-based memory extraction
+    if memories.is_empty() {
+        if let Some(start) = llm_output.find("\"memories\"") {
+            if let Some(arr_start) = llm_output[start..].find('[') {
+                if let Some(arr_end) = llm_output[start + arr_start..].find(']') {
+                    let json = &llm_output[start + arr_start..start + arr_start + arr_end + 1];
+                    if let Ok(parsed) = serde_json::from_str::<Vec<ExtractedMemory>>(json) {
+                        return parsed;
+                    }
+                }
+            }
+        }
+    }
+
+    memories
 }
