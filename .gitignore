@@ -81,6 +81,12 @@ landing.html
 pocketclaw-deck.html
 pocketclaw-deck-standalone.html
 
+# Legacy directories (kept locally, not in public repo)
+android/
+cloud/
+assets/hero.png
+PocketClaw/android/assets/screenshots/
+
 # Misc
 PocketClaw/fix_pkg.py
 PocketClaw/gitlog.txt
