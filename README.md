@@ -1,297 +1,355 @@
-<p align="center">
- 
-</p>
+<div align="center">
 
-<h1 align="center">🦀 PocketClaw</h1>
+# 🦞 PocketClaw
 
-<p align="center">
-  <strong>The first mobile-native AI agent framework.</strong><br>
-  Your butler, in your pocket.
-</p>
+### Your AI butler. In your pocket. No server required.
 
-<p align="center">
-  <a href="#why">Why</a> · <a href="#the-problem">The Problem</a> · <a href="#how-it-works">How It Works</a> · <a href="#security">Security</a> · <a href="#real-results">Real Results</a> · <a href="#roadmap">Roadmap</a> · <a href="#carcinization">Carcinization</a>
-</p>
+**The first serverless, mobile-native AI agent.**
+One APK. 16 tools. Runs on your phone. Not in a datacenter.
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Platform-Android-3DDC84?logo=android&logoColor=white" alt="Android">
-  <img src="https://img.shields.io/badge/Cloud-Rust-E85D26?logo=rust&logoColor=white" alt="Rust">
-  <img src="https://img.shields.io/badge/Sandbox-WASM-654FF0?logo=webassembly&logoColor=white" alt="WASM">
-  <img src="https://img.shields.io/badge/Status-Alpha-orange" alt="Alpha">
-  <img src="https://img.shields.io/badge/Token_Savings-95.7%25-brightgreen" alt="Token Savings">
-</p>
+[![Android](https://img.shields.io/badge/Android-APK_Released-34d399?style=for-the-badge&logo=android&logoColor=white)](https://github.com/HenryZ838978/pocketclaw/releases)
+[![Kotlin](https://img.shields.io/badge/Kotlin-19.4K_LoC-7F52FF?style=for-the-badge&logo=kotlin&logoColor=white)](#codebase)
+[![Tools](https://img.shields.io/badge/Built--in_Tools-16-ff6b35?style=for-the-badge)](#-16-built-in-tools)
+[![Security](https://img.shields.io/badge/Security-4_Layer-34d399?style=for-the-badge&logo=shield)](#-security--4-layer-armor)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](LICENSE)
 
----
+<br>
 
-## Why
+> *A butler locked in your datacenter is not a butler.*
+> *A butler walks where you walk.*
 
-**6.8 billion** people carry smartphones. **< 10%** carry laptops.
+<br>
 
-Every AI agent framework today — OpenClaw (294K★), ZeroClaw (25K★), NanoClaw (20K★), IronClaw (8.7K★) — requires a desktop computer with Docker, Node.js, or a terminal. They're building for **28 million developers**. We're building for **6.8 billion phone users**.
-
-> A butler locked in your study is not a butler. A butler walks where you walk.
-
-PocketClaw is the first AI agent designed from Day 1 for mobile. Not a desktop agent crammed into an app. A ground-up rethink of what an AI agent should be when it lives in your pocket.
+</div>
 
 ---
 
-<a id="the-problem"></a>
-## The Problem with Desktop Agents
+## 📱 Android APP Released!
 
-| | Desktop Agents (OpenClaw, etc.) | PocketClaw |
-|---|---|---|
-| **Runs on** | 💻 Mac/Linux with Docker | 📱 Any Android phone |
-| **When you leave home** | Agent dies | Agent comes with you |
-| **Memory usage** | 1.2 GB | < 10 MB on-device |
-| **Context per request** | ~85,000 tokens (wasteful) | ~500 tokens (precise) |
-| **Security** | 135K instances exposed, 36% malicious plugins, [9 CVEs](https://www.mintmcp.com/blog/openclaw-cve-explained) | OS-level sandbox (Android) + WASM isolation (cloud) |
-| **Background behavior** | Polls every 30 min, burns battery | Event-driven, zero idle power |
-| **Who can use it** | Developers only | Anyone who can install an app |
+PocketClaw v0.4.0 is live on real hardware. One APK install — no server, no Docker, no terminal.
 
-### The OpenClaw Security Crisis
-
-This isn't FUD. These are public records:
-
-- **CVE-2026-25253** (CVSS 9.8): One-click remote code execution. Visit a website → attacker controls your machine
-- **135,000+** OpenClaw instances exposed on the public internet, 93% without authentication
-- **1,184 malicious skills** on ClawHub (36% of audited packages) delivering credential-stealing malware
-- **512 vulnerabilities** found in a January 2026 security audit
-
-The root cause? Desktop agents run on general-purpose computers with full filesystem, shell, and network access. **The attack surface is the entire machine.**
-
-PocketClaw eliminates this by design:
-- On your phone: Android's app sandbox provides **OS-level isolation** — no agent can access other apps' data or execute system commands
-- In the cloud: Every skill runs in a **WASM sandbox** — sealed execution with no filesystem, no network, no escape
+<div align="center">
+<table>
+<tr>
+<td align="center"><b>💬 Chat + Add Skills by Talking</b></td>
+<td align="center"><b>✨ Skills Dashboard</b></td>
+<td align="center"><b>⚙️ Settings — Brain & Voice</b></td>
+</tr>
+<tr>
+<td><img src="assets/screenshots/chat-skill-creation.jpeg" width="250"/></td>
+<td><img src="assets/screenshots/skills-screen.jpeg" width="250"/></td>
+<td><img src="assets/screenshots/settings-screen.jpeg" width="250"/></td>
+</tr>
+<tr>
+<td><i>"Add a websearch skill" → Done.</i></td>
+<td><i>9 built-in + unlimited custom skills</i></td>
+<td><i>Local LLM ↔ Cloud API one-tap switch</i></td>
+</tr>
+</table>
+</div>
 
 ---
 
-<a id="how-it-works"></a>
-## How It Works
+## 🤯 Why This Exists
+
+**6.8 billion** people carry phones. Every AI agent today needs a laptop with Docker.
 
 ```
-📱 Your Phone                          ☁️ Cloud Brain
-┌──────────────┐                      ┌──────────────────────────────┐
-│              │   encrypted HTTPS    │                              │
-│  👂 Listen   │ ──────────────────→  │  🔍 Smart Router (<50ms)     │
-│  (notifs)    │                      │       ↓                      │
-│              │                      │  📋 Context Fetcher          │
-│  🔔 Display  │ ←──────────────────  │       ↓                      │
-│  (results)   │   action commands    │  🧠 AI Reasoning             │
-│              │                      │       ↓                      │
-│  😴 Sleep    │                      │  🔒 WASM Sandbox Execution   │
-│  (zero idle) │                      │                              │
-└──────────────┘                      └──────────────────────────────┘
- ~2 MB memory                          Rust · < 5s response
- OS sandbox                            WASM isolation
+┌──────────────────────────────────────────────────────────┐
+│                                                          │
+│   Desktop Agents          vs.        PocketClaw          │
+│   ─────────────                      ──────────          │
+│                                                          │
+│   💻 Needs Docker/Node.js            📱 One APK install  │
+│   🔌 Dies when you leave home        🚶 Walks with you   │
+│   🌐 Needs a server                  📴 Serverless       │
+│   💰 $15-40/month API               🆓 Free (local LLM)  │
+│   🔓 135K instances exposed          🔒 4-layer security  │
+│   🧠 ~17K tokens/request             🎯 ~600 tokens/req  │
+│   👨‍💻 Developers only                 👤 Anyone           │
+│                                                          │
+└──────────────────────────────────────────────────────────┘
 ```
 
-**Your phone does 3 things:** listen for notifications → send to cloud → display the result. That's it. No heavy computation, no battery drain, no heat.
-
-**The cloud brain does the thinking:** route to the right skill → assemble minimal context → AI reasoning → sandboxed execution → return actions.
-
-### 🔒 The Carapace (Security Shell)
-
-Every skill runs inside a **WASM (WebAssembly) sandbox** — think of it as a sealed room:
-
-- Code goes in through a slot, results come out through a slot
-- **No filesystem access** — can't read your files
-- **No network access** — can't phone home
-- **No escape** — the room has no doors, only a controlled transfer port
-- **Starts in < 1ms** — 500x faster than Docker containers
-- **Uses only 2 MB** — 75x smaller than Docker
-
-Why not Docker? Docker is like building a separate house inside your house — 500ms startup, 150MB RAM. On a phone, that's a non-starter. WASM is a magic box: tiny, instant, self-locking.
-
-### 🦀 The Pincers (Precision Context)
-
-Other agents dump **everything** into every request — all skill descriptions, all conversation history, all system prompts. Like giving a doctor your entire life story when you just have a cold.
-
-PocketClaw's pincers work in two stages:
-
-**Left Pincer — Smart Router (< 50ms)**
-A lightweight semantic classifier that instantly decides which 1-3 skills are relevant. The other 47 skills? Never loaded. Never billed.
-
-**Right Pincer — Context Fetcher**
-Assembles only the relevant skill descriptions + compressed recent history. The AI reads a paragraph, not an encyclopedia.
-
-**Result:** 95.7% token reduction. Same task, 1/20th the cost. On mobile, this means: less data, less battery, faster response.
-
-### 🕷️ Event-Driven Architecture
-
-Desktop agents poll every 30 minutes: "Anything new? No? I'll check again in 30 minutes." This burns CPU, memory, battery, and money — even when nothing is happening.
-
-PocketClaw doesn't poll. It listens to **the phone's native notification system** — the same system that wakes your screen when a message arrives. No notification = no work = no battery drain.
+PocketClaw is not a desktop agent crammed into an app. It's a ground-up rethink of what an AI agent should be **when it lives in your pocket**.
 
 ---
 
-<a id="security"></a>
-## Security Comparison
+## ⚡ Quick Start
 
-| | OpenClaw | NanoClaw | ZeroClaw | PocketClaw |
+```bash
+# 1. Build
+cd PocketClaw/android
+./gradlew assembleDebug
+
+# 2. Install
+adb install -r app/build/outputs/apk/debug/app-debug.apk
+
+# 3. Open PocketClaw on your phone. That's it.
+```
+
+> **No server to deploy. No Docker. No API keys required** (uses on-device Qwen3 by default).
+> Want cloud power? Toggle to Cloud API in Settings and use DashScope.
+
+---
+
+## 🔧 16 Built-in Tools
+
+PocketClaw can **act**, not just chat. Every tool has a security risk level (L0-L3).
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                                                                 │
+│  📁 FILES           📱 SCREEN          ⏰ SCHEDULE              │
+│  ├─ file_read  L0   ├─ screen_read L0  ├─ schedule_create L1   │
+│  ├─ file_write L1   ├─ screen_tap  L3  └─ schedule_list   L0   │
+│  ├─ file_list  L0   ├─ screen_swipe L3                         │
+│  └─ file_delete L2  ├─ screen_input L1  💬 MESSAGING            │
+│                     └─ screen_back  L3  └─ tg_send        L2   │
+│  📋 CLIPBOARD                                                   │
+│  ├─ clipboard_read L0   🌐 WEB          📦 APPS                │
+│  └─ clipboard_write L1  └─ web_search L0 └─ app_launch    L1   │
+│                                                                 │
+│  L0 = auto-approve  L1 = first-time grant  L2 = always confirm │
+│  L3 = always confirm + auto-revoke after 30s                   │
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+### How Tool Calling Works
+
+You chat naturally. PocketClaw decides when a tool is needed:
+
+```
+You:        "搜一下明天北京的天气"
+PocketClaw: "我来帮你查！"
+             → [T:web_search:北京 明天 天气]     ← auto-parsed
+             → (executes DuckDuckGo search)
+             → "明天北京晴，最高温度 22°C，最低 8°C"
+```
+
+```
+You:        "Set a 3pm meeting reminder"
+PocketClaw: "Done! Daily reminder at 15:00."
+             → [T:schedule_create:15:00:Meeting reminder]
+```
+
+---
+
+## 🛡️ Security — 4-Layer Armor
+
+Unlike desktop agents with [135K exposed instances](https://www.mintmcp.com/blog/openclaw-cve-explained) and [9 CVEs](https://nvd.nist.gov/), PocketClaw is secure by architecture:
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    SECURITY LAYERS                           │
+│                                                             │
+│  ┌─── Layer 1: PermissionGuard ──────────────────────────┐  │
+│  │  L0 auto-approve │ L1 first grant │ L2-L3 user dialog │  │
+│  └────────────────────────────────────────────────────────┘  │
+│  ┌─── Layer 2: PathSandbox ──────────────────────────────┐  │
+│  │  Whitelist: /PocketClaw, /Download, /Documents only   │  │
+│  │  Blocked:   /data, /system, /proc, /dev               │  │
+│  └────────────────────────────────────────────────────────┘  │
+│  ┌─── Layer 3: RateLimiter ──────────────────────────────┐  │
+│  │  Max N calls/turn │ Cooldown │ Consecutive fail fuse  │  │
+│  └────────────────────────────────────────────────────────┘  │
+│  ┌─── Layer 4: AuditLog ─────────────────────────────────┐  │
+│  │  Every tool call logged │ Viewable in Settings        │  │
+│  └────────────────────────────────────────────────────────┘  │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
+
+**L2/L3 tools show a real confirmation dialog** — the AI cannot delete your files or control your screen without explicit permission.
+
+---
+
+## 🧠 Dual-Mode AI Brain
+
+```
+┌──────────────────────────────────────────────────────────┐
+│                                                          │
+│        LOCAL MODE              CLOUD MODE                │
+│        ──────────              ──────────                │
+│                                                          │
+│   🤖 Qwen3-1.7B (Q8_0)    ☁️  MiniMax-M2.5             │
+│   📱 Runs on phone          🌐 Via DashScope API         │
+│   🔒 100% offline           ⚡ Faster, smarter          │
+│   💰 Free forever           💰 ~¥40/month               │
+│   📦 Model via ADB push     🔑 API key in Settings      │
+│                                                          │
+│           ← One tap to switch in Settings →              │
+│                                                          │
+└──────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 🦞 The Bond System — Your AI Grows With You
+
+PocketClaw isn't a stateless chatbot. It **remembers you** and **grows**.
+
+```
+     🥚              🐣              🦐              🦞              👑
+    Larva    →    Hatchling    →    Juvenile    →    Adult    →    Elder
+
+    0 XP           100 XP          500 XP         2000 XP        5000 XP
+    "Who are       "I know you     "I know your    "I anticipate  "I know you
+     you?"          like coffee"    schedule"       your needs"    better than
+                                                                   you do"
+```
+
+**4 types of memory:** Preferences · Habits · Relationships · Facts
+
+Say *"I love braised pork"* → PocketClaw remembers → `[M:pref:food:braised pork]`
+
+Next time you ask about dinner, it already knows.
+
+---
+
+## 🏗️ Architecture
+
+```
+┌──────────────────────────────────────────────────────────────────┐
+│                        SINGLE APK                                │
+│                                                                  │
+│  🎙️ Input  →  🧠 SOUL Prompt  →  ⚡ LLM  →  🔧 ToolParser      │
+│  (STT/Text)    (Assembler)       (Local     (Parse [T:] markers) │
+│                                   or Cloud)                      │
+│                      ↓                           ↓               │
+│               📋 ContextBudget          🛡️ PermissionGuard       │
+│               (local: 2K tok           (L0-L3 risk check)       │
+│                cloud: 6K tok)                    ↓               │
+│                                         🔧 ToolExecutor          │
+│                                         (Execute + AuditLog)     │
+│                                                  ↓               │
+│                                         🔄 Second-pass LLM       │
+│                                         (Inject tool result,     │
+│                                          generate final reply)   │
+│                                                                  │
+└──────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 📊 vs. The Competition
+
+| | OpenClaw | NanoClaw | AndroidForClaw | **PocketClaw** |
 |---|---|---|---|---|
-| **CVEs** | 9 (incl. CVSS 9.8) | 0 | 0 | **0** |
-| **Exposed instances** | 135,000+ | N/A | N/A | **N/A (cloud-only)** |
-| **Malicious plugins** | 36% of marketplace | No marketplace | No marketplace | **WASM sandboxed** |
-| **Default network binding** | `0.0.0.0` (all interfaces!) | localhost | localhost | **Cloud API only** |
-| **Skill isolation** | Same Node.js process | Docker container | Allowlist | **WASM sandbox** |
-| **Memory safety** | TypeScript (V8) | TypeScript (V8) | Rust | **Rust** |
-| **On-device attack surface** | Full OS access | Full OS access | Full OS access | **Android app sandbox** |
-
-PocketClaw has **two layers of armor**:
-1. **Phone side:** Android's OS-enforced app sandbox — every app is isolated by the operating system itself
-2. **Cloud side:** WASM sandboxed skill execution — even if a skill is malicious, it physically cannot access the filesystem or network
+| **Platform** | Desktop | Desktop | Android | **📱 Android Native** |
+| **Server needed** | ✅ Node.js | ✅ Claude API | ✅ OpenAI API | **❌ Serverless** |
+| **Built-in tools** | 23 | 7 | 20+ | **16** |
+| **Security model** | 9 CVEs, 36% malicious plugins | Container isolation | Basic confirm | **4-layer: Guard + Audit + Sandbox + Rate** |
+| **Context/request** | ~17K tokens | streaming | unknown | **Dynamic budget (2K local / 6K cloud)** |
+| **Growth system** | ❌ | ❌ | ❌ | **✅ 5-stage Bond Engine** |
+| **Cost** | $15-30/mo | $15-40/mo | $5-20/mo | **¥0 local / ~¥40/mo cloud** |
+| **Custom skills** | ClawHub marketplace | ❌ | ❌ | **✅ Create by chatting** |
 
 ---
 
-<a id="real-results"></a>
-## Real Results
+## 🗂️ Project Structure
 
-These are real API responses from PocketClaw's cloud brain (MiniMax-M2.5):
-
-### WeChat Work Group — Boss Meeting Notice
-
-```json
-{
-  "priority": "high",
-  "title": "Boss scheduled 3 PM meeting",
-  "body": "Boss requires all-hands at 3 PM, send last week's report",
-  "suggestions": ["Got it, I'll be there on time", "Sending the report now", "Where's the meeting?"]
-}
 ```
-`tokens: 475 | saved: 10,545 | latency: 4.3s`
-
-### WeChat Family — Mom Weekend Dinner
-
-```json
-{
-  "priority": "normal",
-  "title": "Mom invites you home for weekend dinner",
-  "body": "Mom asks if you'll come home this weekend, Dad made braised pork",
-  "suggestions": ["I'll come home, thanks Mom and Dad", "Busy this week, can't make it", "Let me check and get back to you"]
-}
+PocketClaw/
+├── android/app/src/main/java/
+│   ├── com/pocketclaw/
+│   │   ├── app/                 # App layer (23 files, 3.5K LoC)
+│   │   │   ├── ui/             # Chat · Memory · Skills · Settings
+│   │   │   ├── messaging/      # Telegram · Discord · Feishu · Slack
+│   │   │   ├── service/        # ScreenControl · TaskWorker
+│   │   │   └── api/            # DashScopeProvider
+│   │   └── claw/               # Claw intelligence layer (27 files, 1.9K LoC)
+│   │       ├── tools/          # 16 tools + Parser · Executor · Registry
+│   │       ├── security/       # PermissionGuard · AuditLog · PathSandbox · RateLimiter
+│   │       ├── prompt/         # SOUL · PromptAssembler · ContextBudget
+│   │       ├── bond/           # BondEngine · Memory · Growth
+│   │       └── skills/         # SkillRouter · CustomSkill
+│   └── com/llmhub/            # Engine layer (42 files, 14K LoC, fork)
+│       └── llmhub/            # Inference · Chat · Model · TTS
+│
+├── cloud/                      # Rust cloud brain (Phase 0 legacy)
+├── assets/screenshots/         # App screenshots
+├── DEVLOG.md                   # Development log
+├── EMERGENT_BOND.md            # Bond system design doc
+├── dashboard.html              # Visual project dashboard
+└── CARCINIZATION_PLAN.md       # Strategy document
 ```
-`tokens: 657 | saved: 10,363 | latency: 8.2s`
 
-### DingTalk — Approval Notification
+**Total: 95 Kotlin files · 19,404 lines of code**
 
-```json
-{
-  "priority": "normal",
-  "title": "DingTalk approval pending",
-  "body": "One new approval form awaiting your review",
-  "suggestions": ["Open DingTalk to review"]
-}
-```
-`tokens: 446 | saved: 10,574 | latency: 4.3s`
+| Layer | Files | LoC | What |
+|-------|-------|-----|------|
+| Claw (original) | 27 | 1,908 | Tools, security, prompts, bond, skills |
+| App (original) | 23 | 3,469 | UI, messaging, services, API |
+| Engine (fork) | 42 | 13,949 | LLM inference, chat persistence, TTS |
 
 ---
 
-## Tech Stack
+## 🗺️ Roadmap — The Molt Cycle 🦞
 
-| Layer | Choice | Why |
-|---|---|---|
-| Cloud Core | **Rust** | Memory-safe, sub-ms latency, native WASM support. Also: Rust's mascot Ferris is a crab 🦀 |
-| Cloud Sandbox | **Wasmtime** | < 1ms startup, 2 MB per instance, capability-based permissions |
-| Semantic Router | **Embedding + Cosine Similarity** | < 50ms intent classification, 90%+ accuracy |
-| Mobile | **Kotlin (Android)** | Native NotificationListenerService, ForegroundService, Widget |
-| Communication | **HTTPS + SSE** | More battery-efficient than WebSocket, push-compatible |
-| Local Storage | **SQLite** | Works on both cloud and device |
+> Crustaceans grow by molting — shedding their old shell to grow a bigger one.
 
----
-
-<a id="roadmap"></a>
-## Roadmap — The Molt Cycle 🦀
-
-> Crabs grow by molting — shedding their old shell to grow a bigger one. Each phase is a molt.
-
-### 🥚 Larva — Core Architecture `[CURRENT]`
-
-- [x] Cloud brain: Rust workspace (protocol / pincers / carapace / brain / server)
+### 🥚 Larva — Core Architecture `✅ DONE`
+- [x] Rust cloud brain (5 crates, 803 LoC)
 - [x] WASM sandbox engine (Wasmtime)
-- [x] Semantic intent router (left pincer)
-- [x] Minimal context assembler (right pincer)
-- [x] Multi-provider LLM interface (OpenAI / Anthropic / DashScope compatible)
-- [x] Android app skeleton (NotificationListener / CloudClient / ActionExecutor)
-- [x] End-to-end pipeline: notification → cloud → structured response
-- [ ] Real embedding model integration (replacing stub router)
-- [ ] First WASM skill compilation: message triage
+- [x] Semantic intent router
+- [x] Multi-provider LLM interface
 
-### 🦀 Juvenile — Device Integration
+### 🐣 Hatchling — Mobile-First Pivot `✅ DONE`
+- [x] Serverless architecture (no server needed)
+- [x] On-device LLM (Qwen3-1.7B via llama.cpp)
+- [x] Cloud API mode (DashScope)
+- [x] Bond growth system (5 stages)
+- [x] Custom skills via chat
 
-- [ ] Android real-device deployment & notification capture
-- [ ] Foreground service with persistent notification
-- [ ] Smart notification filtering (important vs. noise)
-- [ ] Quick-reply action buttons in notification tray
-- [ ] Home screen Widget: daily butler summary
-- [ ] Multi-device compatibility matrix expansion
+### 🦐 Juvenile — Full Claw Parity `✅ DONE (v0.4.0)`
+- [x] 16 built-in tools
+- [x] 4-layer security (Guard + Audit + Sandbox + Rate)
+- [x] STT (Android SpeechRecognizer) + TTS (System)
+- [x] Dark/Light theme
+- [x] 4-platform messaging bridge
+- [x] Tool confirmation dialog for L2/L3 actions
 
-### 🦞→🦀 Adult — Skill Ecosystem
+### 🦞 Adult — Coming Next
+- [ ] Vision (screenshot + multimodal understanding)
+- [ ] Shell execution tool (with extra security audit)
+- [ ] Auto-download models from ModelScope CDN
+- [ ] Contacts / SMS / Call log access
+- [ ] Home screen Widget
 
-- [ ] `message_triage` — Classify, summarize, prioritize incoming messages
-- [ ] `schedule_manage` — Calendar events, meeting reminders, conflict detection
-- [ ] `quick_reply` — Context-aware reply suggestions with one-tap send
-- [ ] `expense_track` — Receipt photo → auto-categorized expense entry
-- [ ] `digest` — End-of-day summary: what happened, what needs attention
-- [ ] Skill SDK: build your own skills in any language that compiles to WASM
-
-### 🏖️ Mature — Platform
-
-- [ ] iOS companion app (Swift / WidgetKit)
-- [ ] Monthly report cards (shareable, beautiful — the "signal export")
-- [ ] Custom butler personality / language / tone
-- [ ] Multi-messenger: WeChat + Telegram + WhatsApp + DingTalk + Slack unified inbox
-- [ ] On-device embedding model (Tensor G3 TPU) for fully offline intent routing
-- [ ] Open skill marketplace with WASM sandboxing (no supply-chain attacks possible)
+### 🦀 Crab — The Final Form
+- [ ] iOS companion app
+- [ ] Monthly report cards (shareable)
+- [ ] On-device embedding model
+- [ ] Open skill marketplace (WASM sandboxed)
+- [ ] Multi-messenger unified inbox
 
 ---
 
-<a id="carcinization"></a>
-## Why "Carcinization"?
+## 🤝 Contributing
 
-> **Carcinization** (noun): The evolutionary tendency for non-crab crustaceans to converge on a crab-like body plan. It has happened independently at least five times in nature.
+PocketClaw is in active development. We're looking for:
 
-The AI agent ecosystem is undergoing carcinization. Every framework — no matter where it starts — is converging toward the same body plan:
-
-| Crab Body Part | Agent Equivalent | Who's Evolving Toward It |
-|---|---|---|
-| **Compact body** | Minimal footprint, no bloat | ZeroClaw (3.4 MB), PicoClaw (< 10 MB) |
-| **Hard carapace** | Security isolation / sandbox | NanoClaw (containers), IronClaw (TEE) |
-| **Precise pincers** | Dynamic context, smart routing | OpenClaw (ContextEngine plugin, v2026.3.7) |
-| **Lateral walking** | Event-driven, not polling | Everyone is moving away from heartbeat |
-
-**PocketClaw is the crab.** Others are still evolving toward it. We started there.
-
-And we added one thing none of them have: **legs that walk with you.** Mobile-native. In your pocket. Everywhere you go.
-
-```
-🦞 Lobster (OpenClaw)     →  Stuck on the kitchen counter
-🦐 Shrimp (NanoClaw)      →  Safe but tiny, can't leave the bowl  
-🦂 Scorpion (ZeroClaw)    →  Hard shell, but lives under a rock
-🦀 Crab (PocketClaw)      →  Armored, precise, walks the beach with you
-```
+- **Android developers** — help build the best mobile agent UX
+- **Prompt engineers** — help tune SOUL prompts for different models
+- **Security researchers** — help audit the 4-layer security model
+- **Polyglots** — the app supports 18 languages, help us improve translations
 
 ---
 
-## Contributing
-
-PocketClaw is in early alpha. We're looking for:
-
-- **Android developers** — help us build the best notification agent UX
-- **Rust developers** — help us harden the WASM sandbox and optimize the router
-- **WASM skill authors** — write skills in any language that compiles to WebAssembly
-- **Polyglots** — help translate the butler to more languages
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
-
----
-
-## License
+## 📜 License
 
 MIT License. See [LICENSE](LICENSE).
 
 ---
 
-<p align="center">
-  <strong>🦀 Stop locking your AI in the study. Let it walk with you.</strong><br>
-  <sub>PocketClaw — Project Carcinization</sub>
-</p>
+<div align="center">
+
+**🦞 Stop locking your AI in a datacenter. Let it walk with you.**
+
+*PocketClaw — Project Carcinization*
+
+<sub>Built with 🦀 Rust + Kotlin · Serverless · Mobile-First · Open Source</sub>
+
+</div>

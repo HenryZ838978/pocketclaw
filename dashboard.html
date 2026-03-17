@@ -3,24 +3,28 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🦀 CrabAgent — Project Dashboard</title>
+<title>🦞 PocketClaw — Project Dashboard</title>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 <style>
 :root {
   --bg: #0a0a0a;
   --surface: #141414;
   --surface2: #1c1c1c;
+  --surface3: #222;
   --border: #2a2a2a;
   --crab: #ff6b35;
   --crab-dim: #cc5529;
   --crab-glow: rgba(255,107,53,0.15);
   --green: #34d399;
-  --green-dim: rgba(52,211,153,0.15);
+  --green-dim: rgba(52,211,153,0.12);
   --yellow: #fbbf24;
-  --yellow-dim: rgba(251,191,36,0.15);
+  --yellow-dim: rgba(251,191,36,0.12);
   --red: #f87171;
+  --red-dim: rgba(248,113,113,0.12);
   --blue: #60a5fa;
-  --blue-dim: rgba(96,165,250,0.15);
+  --blue-dim: rgba(96,165,250,0.12);
+  --purple: #a78bfa;
+  --purple-dim: rgba(167,139,250,0.12);
   --text: #e5e5e5;
   --text-dim: #737373;
   --text-muted: #525252;
@@ -43,256 +47,277 @@ body {
 
 header {
   position: relative; z-index:1;
-  padding: 48px 48px 32px;
+  padding: 40px 48px 28px;
   border-bottom: 1px solid var(--border);
+  display: flex; align-items: flex-end; justify-content: space-between;
 }
 
-header .logo {
-  font-size: 56px;
-  line-height:1;
-  display:flex; align-items:center; gap:16px;
-}
-
-header .logo span.crab-emoji { font-size:64px; }
-header .logo span.name {
+.logo-group { display: flex; align-items: center; gap: 16px; }
+.logo-group .emoji { font-size: 52px; }
+.logo-group .name {
   font-family: 'Instrument Serif', serif;
-  font-weight:400; font-style:italic;
-  color: var(--crab);
-  letter-spacing: -2px;
+  font-size: 48px; font-weight: 400; font-style: italic;
+  color: var(--crab); letter-spacing: -2px; line-height:1;
+}
+.logo-group .tagline {
+  font-size: 11px; font-weight: 300;
+  color: var(--text-dim); letter-spacing: 2px;
+  text-transform: uppercase; margin-top: 4px;
 }
 
-header .tagline {
-  margin-top:8px;
-  font-size:13px; font-weight:300;
-  color: var(--text-dim);
+.header-right { text-align: right; }
+.header-right .phase {
+  font-size: 13px; color: var(--crab); font-weight: 600;
   letter-spacing: 2px;
-  text-transform: uppercase;
 }
-
-header .date {
-  position:absolute; top:48px; right:48px;
-  font-size:12px; color: var(--text-muted);
-  text-align:right;
-}
-header .date .phase {
-  font-size:14px; color: var(--crab); font-weight:600;
-  margin-bottom:4px;
+.header-right .date {
+  font-size: 11px; color: var(--text-muted); margin-top: 2px;
 }
 
 .grid {
-  position:relative; z-index:1;
+  position: relative; z-index:1;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 1px;
   background: var(--border);
-  margin: 0;
 }
 
 .grid > section {
   background: var(--surface);
-  padding: 32px;
+  padding: 28px;
 }
 
 .grid > section.span2 { grid-column: span 2; }
 .grid > section.span3 { grid-column: span 3; }
 
 h2 {
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 600;
   letter-spacing: 3px;
   text-transform: uppercase;
   color: var(--text-muted);
-  margin-bottom: 20px;
-  padding-bottom: 8px;
+  margin-bottom: 18px;
+  padding-bottom: 6px;
   border-bottom: 1px solid var(--border);
 }
 
-.progress-ring-wrap {
-  display:flex; align-items:center; gap:32px;
-  margin-bottom:24px;
+/* ── Progress Ring ── */
+.progress-wrap {
+  display: flex; align-items: center; gap: 28px;
 }
-
-.progress-ring {
-  position:relative; width:140px; height:140px; flex-shrink:0;
-}
-
-.progress-ring svg { transform: rotate(-90deg); }
-
-.progress-ring circle {
-  fill: none;
-  stroke-width: 8;
-  stroke-linecap: round;
-}
-
-.progress-ring .bg { stroke: var(--surface2); }
-.progress-ring .fg {
+.ring-container { position: relative; width: 150px; height: 150px; flex-shrink: 0; }
+.ring-container svg { transform: rotate(-90deg); }
+.ring-container circle { fill: none; stroke-width: 10; stroke-linecap: round; }
+.ring-container .bg-ring { stroke: var(--surface2); }
+.ring-container .fg-ring {
   stroke: var(--crab);
-  transition: stroke-dashoffset 1.5s ease;
-  filter: drop-shadow(0 0 6px var(--crab));
+  transition: stroke-dashoffset 2s cubic-bezier(.4,0,.2,1);
+  filter: drop-shadow(0 0 8px rgba(255,107,53,0.4));
 }
+.ring-label {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+}
+.ring-label .pct { font-size: 36px; font-weight: 800; color: var(--crab); }
+.ring-label .sub { font-size: 9px; color: var(--text-dim); margin-top: 2px; }
 
-.progress-ring .label {
-  position:absolute; inset:0;
-  display:flex; flex-direction:column;
-  align-items:center; justify-content:center;
-}
-.progress-ring .pct {
-  font-size:32px; font-weight:800; color:var(--crab);
-}
-.progress-ring .sub {
-  font-size:10px; color:var(--text-dim); margin-top:2px;
-}
+.checklist { font-size: 12px; line-height: 2; }
+.checklist .done { color: var(--green); }
+.checklist .wip { color: var(--yellow); }
+.checklist .todo { color: var(--text-muted); }
 
-.progress-detail { font-size:13px; line-height:2; }
-.progress-detail .done { color: var(--green); }
-.progress-detail .wip { color: var(--yellow); }
-.progress-detail .todo { color: var(--text-muted); }
-
-.stat-grid {
-  display:grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
+/* ── Stat Cards ── */
+.stat-row {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
 }
-
-.stat {
+.stat-card {
   background: var(--surface2);
   border: 1px solid var(--border);
   border-radius: 8px;
-  padding: 16px;
+  padding: 14px;
+  text-align: center;
 }
+.stat-card .val { font-size: 28px; font-weight: 800; line-height: 1; }
+.stat-card .lbl { font-size: 9px; color: var(--text-dim); margin-top: 4px; letter-spacing: 1px; }
+.stat-card.orange .val { color: var(--crab); }
+.stat-card.green .val { color: var(--green); }
+.stat-card.blue .val { color: var(--blue); }
+.stat-card.purple .val { color: var(--purple); }
 
-.stat .value {
-  font-size:28px; font-weight:800;
-  color: var(--text);
-  line-height:1;
+/* ── Bar Chart ── */
+.bar-chart { display: flex; align-items: flex-end; gap: 3px; height: 90px; margin: 12px 0; }
+.bar-col { display: flex; flex-direction: column; align-items: center; flex: 1; height: 100%; justify-content: flex-end; }
+.bar-fill {
+  width: 100%; border-radius: 3px 3px 0 0;
+  transition: height 1s ease;
+  min-height: 2px;
 }
+.bar-lbl { font-size: 7px; color: var(--text-muted); margin-top: 4px; writing-mode: vertical-rl; text-orientation: mixed; height: 36px; overflow: hidden; }
 
-.stat .unit {
-  font-size:11px; color:var(--text-dim); margin-top:4px;
+/* ── Tool Grid ── */
+.tool-matrix {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;
 }
+.tool-cell {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 6px;
+  text-align: center;
+  font-size: 9px;
+  position: relative;
+  overflow: hidden;
+}
+.tool-cell::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+}
+.tool-cell.l0::before { background: var(--green); }
+.tool-cell.l1::before { background: var(--blue); }
+.tool-cell.l2::before { background: var(--yellow); }
+.tool-cell.l3::before { background: var(--red); }
 
-.stat.highlight .value { color: var(--crab); }
-.stat.green .value { color: var(--green); }
+.tool-cell .name { font-weight: 600; color: var(--text); display: block; margin-bottom: 2px; }
+.tool-cell .lvl { font-size: 7px; letter-spacing: 1px; text-transform: uppercase; }
+.tool-cell .lvl.l0 { color: var(--green); }
+.tool-cell .lvl.l1 { color: var(--blue); }
+.tool-cell .lvl.l2 { color: var(--yellow); }
+.tool-cell .lvl.l3 { color: var(--red); }
 
-.arch-flow {
-  display: flex;
-  align-items: center;
-  gap: 0;
-  margin: 8px 0;
+/* ── Bug / Issue Tracker ── */
+.bug-list { list-style: none; }
+.bug-item {
+  display: flex; align-items: center; gap: 8px;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 11px;
+}
+.bug-item:last-child { border: none; }
+.bug-tag {
+  display: inline-block;
+  padding: 1px 6px; border-radius: 3px;
+  font-size: 8px; font-weight: 700;
+  letter-spacing: 1px; text-transform: uppercase;
+  flex-shrink: 0; min-width: 48px; text-align: center;
+}
+.bug-tag.fixed { background: var(--green-dim); color: var(--green); }
+.bug-tag.open { background: var(--red-dim); color: var(--red); }
+.bug-tag.wip { background: var(--yellow-dim); color: var(--yellow); }
+.bug-tag.planned { background: var(--surface3); color: var(--text-muted); }
+.bug-desc { flex: 1; }
+.bug-id { color: var(--text-muted); font-size: 9px; }
+
+/* ── Architecture Flow ── */
+.arch-pipeline {
+  display: flex; align-items: center; gap: 0;
+  margin: 8px 0 16px;
   flex-wrap: wrap;
 }
+.arch-box {
+  background: var(--surface2);
+  border: 1px solid var(--crab-dim);
+  border-radius: 6px;
+  padding: 10px 12px;
+  font-size: 10px; text-align: center; line-height: 1.4;
+  box-shadow: 0 0 8px var(--crab-glow);
+}
+.arch-box .top { font-size: 8px; color: var(--text-muted); display: block; margin-bottom: 1px; }
+.arch-box .mid { font-weight: 600; color: var(--crab); }
+.arch-arrow { font-size: 14px; color: var(--text-muted); padding: 0 5px; flex-shrink: 0; }
 
-.arch-node {
+/* ── Comparison Radar ── */
+.radar-wrap { display: flex; gap: 20px; align-items: center; }
+.radar-svg { flex-shrink: 0; }
+.radar-legend { font-size: 10px; line-height: 2; }
+.radar-legend .dot {
+  display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px;
+}
+
+/* ── Sprint Timeline ── */
+.timeline { position: relative; padding-left: 20px; }
+.timeline::before {
+  content: '';
+  position: absolute; left: 6px; top: 0; bottom: 0;
+  width: 2px; background: var(--border);
+}
+.timeline-item { position: relative; margin-bottom: 18px; }
+.timeline-item::before {
+  content: '';
+  position: absolute; left: -20px; top: 4px;
+  width: 12px; height: 12px; border-radius: 50%;
+  border: 2px solid var(--crab);
+  background: var(--surface);
+}
+.timeline-item.done::before { background: var(--crab); }
+.timeline-item.current::before {
+  background: var(--crab);
+  box-shadow: 0 0 8px var(--crab);
+  animation: pulse 2s ease infinite;
+}
+.timeline-title {
+  font-size: 12px; font-weight: 600; color: var(--crab); margin-bottom: 4px;
+}
+.timeline-body {
+  font-size: 10px; color: var(--text-dim); line-height: 1.8;
+}
+
+/* ── Code Donut ── */
+.donut-wrap { display: flex; align-items: center; gap: 20px; }
+.donut-legend { font-size: 10px; line-height: 2.2; }
+.donut-legend .swatch {
+  display: inline-block; width: 10px; height: 10px;
+  border-radius: 2px; margin-right: 6px; vertical-align: middle;
+}
+
+/* ── Security Shields ── */
+.shield-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.shield {
   background: var(--surface2);
   border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px;
+  display: flex; align-items: flex-start; gap: 10px;
+}
+.shield-icon {
+  font-size: 20px; flex-shrink: 0;
+  width: 32px; height: 32px;
+  display: flex; align-items: center; justify-content: center;
   border-radius: 6px;
-  padding: 10px 14px;
-  font-size: 11px;
-  text-align: center;
-  line-height: 1.4;
-  position:relative;
 }
+.shield-icon.g { background: var(--crab-glow); }
+.shield-icon.a { background: var(--blue-dim); }
+.shield-icon.p { background: var(--green-dim); }
+.shield-icon.r { background: var(--yellow-dim); }
+.shield-text .st { font-size: 11px; font-weight: 600; }
+.shield-text .sd { font-size: 9px; color: var(--text-muted); margin-top: 2px; }
 
-.arch-node.active {
-  border-color: var(--crab);
-  box-shadow: 0 0 12px var(--crab-glow);
+/* ── Priority dots ── */
+.pri {
+  display: inline-block; padding: 1px 6px; border-radius: 3px;
+  font-size: 9px; font-weight: 800; flex-shrink: 0;
 }
-
-.arch-node .label { color: var(--text-dim); font-size:9px; display:block; margin-bottom:2px; }
-.arch-node .name { font-weight:600; color:var(--text); }
-.arch-node.active .name { color: var(--crab); }
-
-.arch-arrow {
-  font-size:16px; color:var(--text-muted); padding: 0 6px;
-  flex-shrink:0;
-}
-
-.module-list { list-style:none; }
-
-.module-list li {
-  display:flex; align-items:center; gap:10px;
-  padding: 8px 0;
-  border-bottom: 1px solid var(--border);
-  font-size: 12px;
-}
-
-.module-list li:last-child { border:none; }
-
-.badge {
-  display:inline-block;
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-size: 10px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  flex-shrink:0;
-}
-
-.badge.done { background: var(--green-dim); color: var(--green); }
-.badge.wip { background: var(--yellow-dim); color: var(--yellow); }
-.badge.planned { background: var(--surface2); color: var(--text-muted); }
-
-.module-name { font-weight:600; flex:1; }
-.module-lines { color: var(--text-muted); font-size:11px; }
-
-.tool-grid {
-  display:grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  gap: 8px;
-}
-
-.tool-chip {
-  background: var(--surface2);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 8px 10px;
-  font-size: 10px;
-  text-align: center;
-}
-
-.tool-chip .tid { font-weight:600; color:var(--text); display:block; margin-bottom:2px; }
-.tool-chip .risk { font-size:8px; letter-spacing:1px; }
-.tool-chip .risk.l0 { color:var(--green); }
-.tool-chip .risk.l1 { color:var(--blue); }
-.tool-chip .risk.l2 { color:var(--yellow); }
-.tool-chip .risk.l3 { color:var(--red); }
-
-.next-list { list-style:none; }
-.next-list li {
-  padding: 8px 0;
-  border-bottom: 1px solid var(--border);
-  display:flex; align-items:baseline; gap:10px;
-  font-size:12px;
-}
-.next-list li:last-child { border:none; }
-
-.priority {
-  font-size:10px; font-weight:800;
-  padding:1px 6px; border-radius:3px;
-  flex-shrink:0;
-}
-.priority.p0 { background:var(--crab); color:#000; }
-.priority.p1 { background:var(--yellow-dim); color:var(--yellow); }
-.priority.p2 { background:var(--surface2); color:var(--text-muted); }
+.pri.p0 { background: var(--crab); color: #000; }
+.pri.p1 { background: var(--yellow-dim); color: var(--yellow); }
+.pri.p2 { background: var(--surface3); color: var(--text-muted); }
 
 footer {
-  position:relative; z-index:1;
+  position: relative; z-index:1;
   border-top: 1px solid var(--border);
-  padding: 16px 48px;
-  font-size: 10px;
+  padding: 14px 48px;
+  font-size: 9px;
   color: var(--text-muted);
-  display:flex; justify-content:space-between;
+  display: flex; justify-content: space-between;
 }
 
 @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
 .pulse { animation: pulse 2s ease infinite; }
 
 @media (max-width:900px) {
-  .grid { grid-template-columns:1fr; }
-  .grid > section.span2, .grid > section.span3 { grid-column:span 1; }
-  header { padding:24px; }
-  header .date { position:static; margin-top:12px; text-align:left; }
+  .grid { grid-template-columns: 1fr; }
+  .grid > section.span2, .grid > section.span3 { grid-column: span 1; }
+  header { flex-direction: column; padding: 24px; gap: 12px; }
+  .header-right { text-align: left; }
 }
 </style>
 </head>
@@ -300,363 +325,447 @@ footer {
 <div class="noise"></div>
 
 <header>
-  <div class="logo">
-    <span class="crab-emoji">🦞</span>
-    <span class="name">PocketClaw</span>
+  <div>
+    <div class="logo-group">
+      <span class="emoji">🦞</span>
+      <div>
+        <div class="name">PocketClaw</div>
+        <div class="tagline">Project Carcinization — Mobile-First AI Agent</div>
+      </div>
+    </div>
   </div>
-  <div class="tagline">Project Carcinization — 口袋里的管家 · 移动端原生 AI Agent</div>
-  <div class="date">
-    <div class="phase">PHASE 0 — SPRINT 3</div>
-    2026-03-15 · v0.4.0
+  <div class="header-right">
+    <div class="phase">SPRINT 4 · v0.4.1</div>
+    <div class="date">2026-03-17 · Phase 0</div>
   </div>
 </header>
 
 <div class="grid">
 
-  <!-- ── Overall Progress ── -->
+  <!-- ══════════════ ROW 1: Progress + Stats + Code Donut ══════════════ -->
+
   <section>
     <h2>Overall Progress</h2>
-    <div class="progress-ring-wrap">
-      <div class="progress-ring">
-        <svg width="140" height="140">
-          <circle class="bg" cx="70" cy="70" r="60" />
-          <circle class="fg" cx="70" cy="70" r="60"
-            stroke-dasharray="377"
-            stroke-dashoffset="94" />
+    <div class="progress-wrap">
+      <div class="ring-container">
+        <svg width="150" height="150">
+          <circle class="bg-ring" cx="75" cy="75" r="62"/>
+          <circle class="fg-ring" cx="75" cy="75" r="62"
+            stroke-dasharray="389.56"
+            stroke-dashoffset="78"/>
         </svg>
-        <div class="label">
-          <div class="pct">75%</div>
+        <div class="ring-label">
+          <div class="pct">80%</div>
           <div class="sub">Phase 0</div>
         </div>
       </div>
-      <div class="progress-detail">
-        <div class="done">✓ Serverless 架构</div>
+      <div class="checklist">
+        <div class="done">✓ Serverless 单 APK</div>
         <div class="done">✓ 16 个内置工具</div>
         <div class="done">✓ 安全四件套</div>
-        <div class="done">✓ 上下文动态精简</div>
-        <div class="done">✓ 养成系统 + 技能</div>
-        <div class="done">✓ 4-Tab UI 重构</div>
-        <div class="done">✓ STT / TTS 集成</div>
-        <div class="done">✓ 4 平台消息桥</div>
-        <div class="wip">◑ 真机端到端测试</div>
-        <div class="todo">○ Vision (截图+多模态)</div>
+        <div class="done">✓ 双模式 LLM Brain</div>
+        <div class="done">✓ Bond 养成系统</div>
+        <div class="done">✓ STT + TTS</div>
+        <div class="done">✓ 真机 API 联调通过</div>
+        <div class="wip">◑ E2E 工具测试</div>
+        <div class="todo">○ Vision 多模态</div>
+        <div class="todo">○ Widget 桌面组件</div>
       </div>
     </div>
   </section>
 
-  <!-- ── Codebase Stats ── -->
   <section>
-    <h2>Codebase</h2>
-    <div class="stat-grid">
-      <div class="stat highlight">
-        <div class="value">19.4K</div>
-        <div class="unit">Lines of Kotlin</div>
-      </div>
-      <div class="stat">
-        <div class="value">1.2K</div>
-        <div class="unit">Lines of Rust (Cloud)</div>
-      </div>
-      <div class="stat">
-        <div class="value">95</div>
-        <div class="unit">Kotlin Source Files</div>
-      </div>
-      <div class="stat">
-        <div class="value">16</div>
-        <div class="unit">Built-in Tools</div>
-      </div>
-      <div class="stat green">
-        <div class="value">0</div>
-        <div class="unit">Compiler Errors</div>
-      </div>
-      <div class="stat">
-        <div class="value">420</div>
-        <div class="unit">APK Size (MB)</div>
+    <h2>Codebase Metrics</h2>
+    <div class="stat-row">
+      <div class="stat-card orange"><div class="val">19.4K</div><div class="lbl">Kotlin LoC</div></div>
+      <div class="stat-card blue"><div class="val">95</div><div class="lbl">Source Files</div></div>
+      <div class="stat-card green"><div class="val">16</div><div class="lbl">Built-in Tools</div></div>
+    </div>
+    <div class="stat-row" style="margin-top:10px;">
+      <div class="stat-card purple"><div class="val">1.2K</div><div class="lbl">Rust LoC (Cloud)</div></div>
+      <div class="stat-card"><div class="val" style="color:var(--text);">420</div><div class="lbl">APK Size (MB)</div></div>
+      <div class="stat-card green"><div class="val">0</div><div class="lbl">Compiler Errors</div></div>
+    </div>
+
+    <div style="margin-top:16px;">
+      <div style="font-size:9px;color:var(--text-muted);margin-bottom:6px;">CODE COMPOSITION</div>
+      <div class="donut-wrap">
+        <svg width="90" height="90" viewBox="0 0 36 36">
+          <circle cx="18" cy="18" r="14" fill="none" stroke="var(--surface2)" stroke-width="5"/>
+          <circle cx="18" cy="18" r="14" fill="none" stroke="var(--crab)" stroke-width="5"
+            stroke-dasharray="10 90" stroke-dashoffset="25" stroke-linecap="round"/>
+          <circle cx="18" cy="18" r="14" fill="none" stroke="var(--blue)" stroke-width="5"
+            stroke-dasharray="18 82" stroke-dashoffset="15" stroke-linecap="round"/>
+          <circle cx="18" cy="18" r="14" fill="none" stroke="var(--text-muted)" stroke-width="5"
+            stroke-dasharray="72 28" stroke-dashoffset="-3" stroke-linecap="round"/>
+        </svg>
+        <div class="donut-legend">
+          <div><span class="swatch" style="background:var(--crab)"></span>Claw 1.9K <span style="color:var(--text-muted)">(10%)</span></div>
+          <div><span class="swatch" style="background:var(--blue)"></span>App 3.5K <span style="color:var(--text-muted)">(18%)</span></div>
+          <div><span class="swatch" style="background:var(--text-muted)"></span>Engine 14K <span style="color:var(--text-muted)">(72%)</span></div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- ── Tool System ── -->
   <section>
-    <h2>Tool System — 16 Built-in</h2>
-    <div class="tool-grid">
-      <div class="tool-chip"><span class="tid">file_read</span><span class="risk l0">L0 READ</span></div>
-      <div class="tool-chip"><span class="tid">file_write</span><span class="risk l1">L1 WRITE</span></div>
-      <div class="tool-chip"><span class="tid">file_list</span><span class="risk l0">L0 READ</span></div>
-      <div class="tool-chip"><span class="tid">file_delete</span><span class="risk l2">L2 DESTRUCT</span></div>
-      <div class="tool-chip"><span class="tid">screen_read</span><span class="risk l0">L0 READ</span></div>
-      <div class="tool-chip"><span class="tid">screen_tap</span><span class="risk l3">L3 SYSTEM</span></div>
-      <div class="tool-chip"><span class="tid">screen_swipe</span><span class="risk l3">L3 SYSTEM</span></div>
-      <div class="tool-chip"><span class="tid">screen_input</span><span class="risk l1">L1 WRITE</span></div>
-      <div class="tool-chip"><span class="tid">screen_back</span><span class="risk l3">L3 SYSTEM</span></div>
-      <div class="tool-chip"><span class="tid">schedule_create</span><span class="risk l1">L1 WRITE</span></div>
-      <div class="tool-chip"><span class="tid">schedule_list</span><span class="risk l0">L0 READ</span></div>
-      <div class="tool-chip"><span class="tid">tg_send</span><span class="risk l2">L2 DESTRUCT</span></div>
-      <div class="tool-chip"><span class="tid">clipboard_read</span><span class="risk l0">L0 READ</span></div>
-      <div class="tool-chip"><span class="tid">clipboard_write</span><span class="risk l1">L1 WRITE</span></div>
-      <div class="tool-chip"><span class="tid">app_launch</span><span class="risk l1">L1 WRITE</span></div>
-      <div class="tool-chip"><span class="tid">web_search</span><span class="risk l0">L0 READ</span></div>
+    <h2>Feature Completion</h2>
+    <div style="font-size:9px;color:var(--text-muted);margin-bottom:8px;">FEATURES BY CATEGORY</div>
+    <div class="bar-chart">
+      <div class="bar-col">
+        <div class="bar-fill" style="height:100%;background:var(--green);"></div>
+        <div class="bar-lbl">Tools</div>
+      </div>
+      <div class="bar-col">
+        <div class="bar-fill" style="height:100%;background:var(--green);"></div>
+        <div class="bar-lbl">Security</div>
+      </div>
+      <div class="bar-col">
+        <div class="bar-fill" style="height:100%;background:var(--green);"></div>
+        <div class="bar-lbl">LLM</div>
+      </div>
+      <div class="bar-col">
+        <div class="bar-fill" style="height:100%;background:var(--green);"></div>
+        <div class="bar-lbl">Bond</div>
+      </div>
+      <div class="bar-col">
+        <div class="bar-fill" style="height:100%;background:var(--green);"></div>
+        <div class="bar-lbl">STT/TTS</div>
+      </div>
+      <div class="bar-col">
+        <div class="bar-fill" style="height:100%;background:var(--green);"></div>
+        <div class="bar-lbl">MsgBridge</div>
+      </div>
+      <div class="bar-col">
+        <div class="bar-fill" style="height:60%;background:var(--yellow);"></div>
+        <div class="bar-lbl">E2E Test</div>
+      </div>
+      <div class="bar-col">
+        <div class="bar-fill" style="height:20%;background:var(--red);"></div>
+        <div class="bar-lbl">Vision</div>
+      </div>
+      <div class="bar-col">
+        <div class="bar-fill" style="height:0%;background:var(--text-muted);"></div>
+        <div class="bar-lbl">Widget</div>
+      </div>
+      <div class="bar-col">
+        <div class="bar-fill" style="height:0%;background:var(--text-muted);"></div>
+        <div class="bar-lbl">Shell</div>
+      </div>
     </div>
-    <div style="margin-top:16px;font-size:10px;color:var(--text-muted);line-height:1.6;">
-      L0=自动放行 · L1=首次授权 · L2=每次弹窗 · L3=每次弹窗+30s 自动撤销
+    <div style="display:flex;gap:12px;font-size:8px;color:var(--text-muted);margin-top:4px;">
+      <span><span style="color:var(--green);">■</span> Done</span>
+      <span><span style="color:var(--yellow);">■</span> In Progress</span>
+      <span><span style="color:var(--red);">■</span> Planned</span>
+      <span><span style="color:var(--text-muted);">■</span> Not Started</span>
     </div>
   </section>
 
-  <!-- ── Architecture ── -->
+  <!-- ══════════════ ROW 2: Architecture + Security ══════════════ -->
+
   <section class="span2">
-    <h2>Architecture — Serverless On-Device</h2>
-    <div style="margin-bottom:20px;">
-      <div style="font-size:10px;color:var(--text-muted);margin-bottom:8px;">SINGLE APK · NO SERVER · LOCAL + CLOUD SWITCHABLE</div>
-      <div class="arch-flow">
-        <div class="arch-node active">
-          <span class="label">用户输入</span>
-          <span class="name">🎙️ STT /<br>Text / Voice</span>
-        </div>
-        <span class="arch-arrow">→</span>
-        <div class="arch-node active">
-          <span class="label">Claw 层</span>
-          <span class="name">🧠 SOUL +<br>PromptAssembler</span>
-        </div>
-        <span class="arch-arrow">→</span>
-        <div class="arch-node active">
-          <span class="label">推理</span>
-          <span class="name">⚡ Local LLM<br>或 Cloud API</span>
-        </div>
-        <span class="arch-arrow">→</span>
-        <div class="arch-node active">
-          <span class="label">解析</span>
-          <span class="name">🔧 ToolParser<br>+ ToolExecutor</span>
-        </div>
-        <span class="arch-arrow">→</span>
-        <div class="arch-node active">
-          <span class="label">安全</span>
-          <span class="name">🛡️ Permission<br>Guard</span>
-        </div>
-        <span class="arch-arrow">→</span>
-        <div class="arch-node active">
-          <span class="label">执行</span>
-          <span class="name">🔔 Tool<br>+ 二次生成</span>
-        </div>
-      </div>
+    <h2>Architecture — Serverless On-Device Agent</h2>
+
+    <div style="font-size:9px;color:var(--text-muted);margin-bottom:6px;">SINGLE APK · NO SERVER · LOCAL + CLOUD SWITCHABLE</div>
+    <div class="arch-pipeline">
+      <div class="arch-box"><span class="top">Input</span><span class="mid">🎙️ STT / Text</span></div>
+      <span class="arch-arrow">→</span>
+      <div class="arch-box"><span class="top">Claw</span><span class="mid">🧠 SOUL + Assembler</span></div>
+      <span class="arch-arrow">→</span>
+      <div class="arch-box"><span class="top">Inference</span><span class="mid">⚡ Local / Cloud</span></div>
+      <span class="arch-arrow">→</span>
+      <div class="arch-box"><span class="top">Parse</span><span class="mid">🔧 ToolParser</span></div>
+      <span class="arch-arrow">→</span>
+      <div class="arch-box"><span class="top">Guard</span><span class="mid">🛡️ Permission</span></div>
+      <span class="arch-arrow">→</span>
+      <div class="arch-box"><span class="top">Execute</span><span class="mid">🔔 Tool + 2nd LLM</span></div>
     </div>
 
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;">
-      <div>
-        <div style="font-size:10px;color:var(--text-muted);margin-bottom:8px;letter-spacing:2px;">CLAW LAYER (1.9K LoC)</div>
-        <ul class="module-list">
-          <li><span class="badge done">DONE</span><span class="module-name">ToolRegistry (16)</span><span class="module-lines">65 LoC</span></li>
-          <li><span class="badge done">DONE</span><span class="module-name">ToolExecutor</span><span class="module-lines">70 LoC</span></li>
-          <li><span class="badge done">DONE</span><span class="module-name">ToolParser</span><span class="module-lines">40 LoC</span></li>
-          <li><span class="badge done">DONE</span><span class="module-name">PermissionGuard</span><span class="module-lines">70 LoC</span></li>
-          <li><span class="badge done">DONE</span><span class="module-name">SOUL Prompt</span><span class="module-lines">adaptive</span></li>
-          <li><span class="badge done">DONE</span><span class="module-name">ContextBudget</span><span class="module-lines">local/cloud</span></li>
-          <li><span class="badge done">DONE</span><span class="module-name">BondEngine</span><span class="module-lines">growth sys</span></li>
-          <li><span class="badge done">DONE</span><span class="module-name">SkillRouter</span><span class="module-lines">keyword</span></li>
-        </ul>
+    <h2 style="margin-top:20px;">Security — 4-Layer Armor</h2>
+    <div class="shield-row">
+      <div class="shield">
+        <div class="shield-icon g">🛡️</div>
+        <div class="shield-text">
+          <div class="st">PermissionGuard</div>
+          <div class="sd">L0 auto-approve · L1 first-grant · L2-L3 user dialog every time</div>
+        </div>
       </div>
-      <div>
-        <div style="font-size:10px;color:var(--text-muted);margin-bottom:8px;letter-spacing:2px;">APP LAYER (3.5K LoC)</div>
-        <ul class="module-list">
-          <li><span class="badge done">DONE</span><span class="module-name">ChatScreen</span><span class="module-lines">364 LoC</span></li>
-          <li><span class="badge done">DONE</span><span class="module-name">SettingsScreen</span><span class="module-lines">360 LoC</span></li>
-          <li><span class="badge done">DONE</span><span class="module-name">ToolConfirmDialog</span><span class="module-lines">60 LoC</span></li>
-          <li><span class="badge done">DONE</span><span class="module-name">MainViewModel</span><span class="module-lines">487 LoC</span></li>
-          <li><span class="badge done">DONE</span><span class="module-name">MessageBridge (4)</span><span class="module-lines">4 platforms</span></li>
-          <li><span class="badge done">DONE</span><span class="module-name">ScreenControlSvc</span><span class="module-lines">132 LoC</span></li>
-          <li><span class="badge done">DONE</span><span class="module-name">TaskWorker</span><span class="module-lines">WorkManager</span></li>
-          <li><span class="badge done">DONE</span><span class="module-name">DashScopeProvider</span><span class="module-lines">stream</span></li>
-        </ul>
+      <div class="shield">
+        <div class="shield-icon a">📋</div>
+        <div class="shield-text">
+          <div class="st">AuditLog</div>
+          <div class="sd">Every tool call logged · Viewable in Settings · Timestamped</div>
+        </div>
       </div>
-      <div>
-        <div style="font-size:10px;color:var(--crab);margin-bottom:8px;letter-spacing:2px;">🛡️ SECURITY</div>
-        <ul class="module-list">
-          <li style="border-color:rgba(255,107,53,0.15);">
-            <span class="badge done" style="background:var(--crab-glow);color:var(--crab);">L0-L3</span>
-            <span class="module-name" style="font-size:11px;">PermissionGuard<br><span style="color:var(--text-muted);font-weight:400;font-size:10px;">4 级风险分层 + UI 弹窗确认</span></span>
-          </li>
-          <li style="border-color:rgba(255,107,53,0.15);">
-            <span class="badge done" style="background:var(--crab-glow);color:var(--crab);">LOG</span>
-            <span class="module-name" style="font-size:11px;">AuditLog<br><span style="color:var(--text-muted);font-weight:400;font-size:10px;">所有工具调用可审计 · Settings 可查看</span></span>
-          </li>
-          <li style="border-color:rgba(255,107,53,0.15);">
-            <span class="badge done" style="background:var(--green-dim);color:var(--green);">PATH</span>
-            <span class="module-name" style="font-size:11px;">PathSandbox<br><span style="color:var(--text-muted);font-weight:400;font-size:10px;">白名单目录 · 系统路径一律拦截</span></span>
-          </li>
-          <li style="border-color:rgba(255,107,53,0.15);">
-            <span class="badge done" style="background:var(--green-dim);color:var(--green);">RATE</span>
-            <span class="module-name" style="font-size:11px;">RateLimiter<br><span style="color:var(--text-muted);font-weight:400;font-size:10px;">每轮上限 · 冷却期 · 连续失败熔断</span></span>
-          </li>
-        </ul>
+      <div class="shield">
+        <div class="shield-icon p">📁</div>
+        <div class="shield-text">
+          <div class="st">PathSandbox</div>
+          <div class="sd">Whitelist: /PocketClaw, /Download, /Documents · Block: /data, /system</div>
+        </div>
+      </div>
+      <div class="shield">
+        <div class="shield-icon r">⏱️</div>
+        <div class="shield-text">
+          <div class="st">RateLimiter</div>
+          <div class="sd">Max N calls/turn · Cooldown · Consecutive-fail fuse</div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- ── Competitive Position ── -->
-  <section class="span2">
-    <h2>Competitive Landscape — PocketClaw vs Claw 生态</h2>
-    <div style="overflow-x:auto;">
-      <table style="width:100%;font-size:11px;border-collapse:collapse;">
-        <thead>
-          <tr style="border-bottom:1px solid var(--border);color:var(--text-muted);text-align:left;">
-            <th style="padding:8px 12px;font-weight:600;"></th>
-            <th style="padding:8px 12px;">OpenClaw</th>
-            <th style="padding:8px 12px;">NanoClaw</th>
-            <th style="padding:8px 12px;">AndroidForClaw</th>
-            <th style="padding:8px 12px;color:var(--crab);font-weight:800;">PocketClaw v0.4</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr style="border-bottom:1px solid var(--border);">
-            <td style="padding:8px 12px;color:var(--text-dim);">平台</td>
-            <td style="padding:8px 12px;">Desktop</td>
-            <td style="padding:8px 12px;">Desktop</td>
-            <td style="padding:8px 12px;">Android</td>
-            <td style="padding:8px 12px;color:var(--crab);font-weight:600;">📱 Android Native</td>
-          </tr>
-          <tr style="border-bottom:1px solid var(--border);">
-            <td style="padding:8px 12px;color:var(--text-dim);">Server 依赖</td>
-            <td style="padding:8px 12px;color:var(--red);">是 (Node.js)</td>
-            <td style="padding:8px 12px;color:var(--red);">是 (Claude API)</td>
-            <td style="padding:8px 12px;color:var(--red);">是 (OpenAI API)</td>
-            <td style="padding:8px 12px;color:var(--green);font-weight:600;">❌ Serverless<br><span style="font-size:9px;">本地 LLM + 可选云 API</span></td>
-          </tr>
-          <tr style="border-bottom:1px solid var(--border);">
-            <td style="padding:8px 12px;color:var(--text-dim);">内置工具</td>
-            <td style="padding:8px 12px;">23</td>
-            <td style="padding:8px 12px;">7</td>
-            <td style="padding:8px 12px;">20+</td>
-            <td style="padding:8px 12px;color:var(--crab);font-weight:600;">16<br><span style="font-size:9px;">文件/屏幕/定时/消息/搜索/剪贴板</span></td>
-          </tr>
-          <tr style="border-bottom:1px solid var(--border);">
-            <td style="padding:8px 12px;color:var(--text-dim);">安全层</td>
-            <td style="padding:8px 12px;color:var(--red);">权限模型<br><span style="font-size:9px;">36% 恶意插件</span></td>
-            <td style="padding:8px 12px;color:var(--green);">容器隔离</td>
-            <td style="padding:8px 12px;color:var(--yellow);">基础确认</td>
-            <td style="padding:8px 12px;color:var(--green);font-weight:600;">4 级分层<br><span style="font-size:9px;">Guard+Audit+Sandbox+RateLimit</span></td>
-          </tr>
-          <tr style="border-bottom:1px solid var(--border);">
-            <td style="padding:8px 12px;color:var(--text-dim);">上下文管理</td>
-            <td style="padding:8px 12px;">~17K tok/req</td>
-            <td style="padding:8px 12px;">streaming</td>
-            <td style="padding:8px 12px;">不详</td>
-            <td style="padding:8px 12px;color:var(--green);font-weight:600;">动态预算<br><span style="font-size:9px;">local 2K / cloud 6K · 工具结果摘要</span></td>
-          </tr>
-          <tr style="border-bottom:1px solid var(--border);">
-            <td style="padding:8px 12px;color:var(--text-dim);">养成系统</td>
-            <td style="padding:8px 12px;color:var(--text-muted);">✗</td>
-            <td style="padding:8px 12px;color:var(--text-muted);">✗</td>
-            <td style="padding:8px 12px;color:var(--text-muted);">✗</td>
-            <td style="padding:8px 12px;color:var(--crab);font-weight:600;">✓ Bond Engine<br><span style="font-size:9px;">5 阶段 · 记忆 · 特质 · XP</span></td>
-          </tr>
-          <tr>
-            <td style="padding:8px 12px;color:var(--text-dim);">月费</td>
-            <td style="padding:8px 12px;">$15-30</td>
-            <td style="padding:8px 12px;">$15-40</td>
-            <td style="padding:8px 12px;">$5-20</td>
-            <td style="padding:8px 12px;color:var(--green);font-weight:600;">¥0 本地<br><span style="font-size:9px;">或 ~¥40/月 云 API</span></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-
-  <!-- ── Code Breakdown ── -->
   <section>
-    <h2>Code Breakdown</h2>
-    <div style="margin-bottom:16px;">
-      <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text-muted);margin-bottom:4px;">
-        <span>Claw Layer (自研)</span>
-        <span>1,908 LoC · 27 files</span>
-      </div>
-      <div style="height:8px;background:var(--surface2);border-radius:4px;overflow:hidden;">
-        <div style="height:100%;width:10%;background:var(--crab);border-radius:4px;box-shadow:0 0 8px var(--crab);"></div>
-      </div>
-    </div>
-    <div style="margin-bottom:16px;">
-      <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text-muted);margin-bottom:4px;">
-        <span>App Layer (UI/Services)</span>
-        <span>3,469 LoC · 23 files</span>
-      </div>
-      <div style="height:8px;background:var(--surface2);border-radius:4px;overflow:hidden;">
-        <div style="height:100%;width:18%;background:var(--blue);border-radius:4px;box-shadow:0 0 8px rgba(96,165,250,0.3);"></div>
-      </div>
-    </div>
-    <div style="margin-bottom:16px;">
-      <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text-muted);margin-bottom:4px;">
-        <span>LLM Hub Engine (fork)</span>
-        <span>13,949 LoC · 42 files</span>
-      </div>
-      <div style="height:8px;background:var(--surface2);border-radius:4px;overflow:hidden;">
-        <div style="height:100%;width:72%;background:var(--text-muted);border-radius:4px;"></div>
-      </div>
-    </div>
-    <div class="stat-grid" style="margin-top:20px;">
-      <div class="stat highlight">
-        <div class="value">5.4K</div>
-        <div class="unit">Original Code (Claw+App)</div>
-      </div>
-      <div class="stat">
-        <div class="value">14K</div>
-        <div class="unit">Engine (Fork)</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── Next Steps ── -->
-  <section>
-    <h2>Next Steps</h2>
-    <ul class="next-list">
-      <li><span class="priority p0">P0</span>真机端到端测试 — 验证工具调用 + STT + TTS</li>
-      <li><span class="priority p0">P0</span>调优 SOUL prompt — 让 Qwen-Plus 稳定输出 [T:] 格式</li>
-      <li><span class="priority p1">P1</span>Vision — 截图 + 多模态理解 (MediaProjection)</li>
-      <li><span class="priority p1">P1</span>Shell 执行工具 (adb shell 级，需额外安全审计)</li>
-      <li><span class="priority p1">P1</span>本地模型自动下载 (ModelScope CDN)</li>
-      <li><span class="priority p2">P2</span>联系人/短信/通话记录 访问</li>
-      <li><span class="priority p2">P2</span>Widget 桌面小组件</li>
-      <li><span class="priority p2">P2</span>月报卡片（信号出口：可截图可分享）</li>
+    <h2>Bug Tracker</h2>
+    <ul class="bug-list">
+      <li class="bug-item">
+        <span class="bug-tag fixed">fixed</span>
+        <span class="bug-desc">API 401 — Coding Plan key需要不同endpoint</span>
+        <span class="bug-id">#001</span>
+      </li>
+      <li class="bug-item">
+        <span class="bug-tag fixed">fixed</span>
+        <span class="bug-desc">API 400 — 默认模型应为 MiniMax-M2.5</span>
+        <span class="bug-id">#002</span>
+      </li>
+      <li class="bug-item">
+        <span class="bug-tag fixed">fixed</span>
+        <span class="bug-desc">暗/亮主题切换无效 (非 Compose observable)</span>
+        <span class="bug-id">#003</span>
+      </li>
+      <li class="bug-item">
+        <span class="bug-tag fixed">fixed</span>
+        <span class="bug-desc">天气 skill 返回 XML tool_call 格式</span>
+        <span class="bug-id">#004</span>
+      </li>
+      <li class="bug-item">
+        <span class="bug-tag fixed">fixed</span>
+        <span class="bug-desc">App icon 不显示 (launcher activity)</span>
+        <span class="bug-id">#005</span>
+      </li>
+      <li class="bug-item">
+        <span class="bug-tag fixed">fixed</span>
+        <span class="bug-desc">DNS 解析失败 (VPN 干扰)</span>
+        <span class="bug-id">#006</span>
+      </li>
+      <li class="bug-item">
+        <span class="bug-tag wip">wip</span>
+        <span class="bug-desc">本地 LLM 模型仍需手动 ADB push</span>
+        <span class="bug-id">#007</span>
+      </li>
+      <li class="bug-item">
+        <span class="bug-tag open">open</span>
+        <span class="bug-desc">Kokoro TTS ONNX int64/float 类型错误</span>
+        <span class="bug-id">#008</span>
+      </li>
+      <li class="bug-item">
+        <span class="bug-tag planned">plan</span>
+        <span class="bug-desc">APK 体积 420MB 需要瘦身</span>
+        <span class="bug-id">#009</span>
+      </li>
     </ul>
   </section>
 
-  <!-- ── Timeline ── -->
+  <!-- ══════════════ ROW 3: Tool Grid + Competitive ══════════════ -->
+
+  <section>
+    <h2>Built-in Tools — 16</h2>
+    <div class="tool-matrix">
+      <div class="tool-cell l0"><span class="name">file_read</span><span class="lvl l0">L0</span></div>
+      <div class="tool-cell l1"><span class="name">file_write</span><span class="lvl l1">L1</span></div>
+      <div class="tool-cell l0"><span class="name">file_list</span><span class="lvl l0">L0</span></div>
+      <div class="tool-cell l2"><span class="name">file_delete</span><span class="lvl l2">L2</span></div>
+      <div class="tool-cell l0"><span class="name">screen_read</span><span class="lvl l0">L0</span></div>
+      <div class="tool-cell l3"><span class="name">screen_tap</span><span class="lvl l3">L3</span></div>
+      <div class="tool-cell l3"><span class="name">screen_swipe</span><span class="lvl l3">L3</span></div>
+      <div class="tool-cell l1"><span class="name">screen_input</span><span class="lvl l1">L1</span></div>
+      <div class="tool-cell l3"><span class="name">screen_back</span><span class="lvl l3">L3</span></div>
+      <div class="tool-cell l1"><span class="name">sched_create</span><span class="lvl l1">L1</span></div>
+      <div class="tool-cell l0"><span class="name">sched_list</span><span class="lvl l0">L0</span></div>
+      <div class="tool-cell l2"><span class="name">tg_send</span><span class="lvl l2">L2</span></div>
+      <div class="tool-cell l0"><span class="name">clip_read</span><span class="lvl l0">L0</span></div>
+      <div class="tool-cell l1"><span class="name">clip_write</span><span class="lvl l1">L1</span></div>
+      <div class="tool-cell l1"><span class="name">app_launch</span><span class="lvl l1">L1</span></div>
+      <div class="tool-cell l0"><span class="name">web_search</span><span class="lvl l0">L0</span></div>
+    </div>
+    <div style="display:flex;gap:10px;margin-top:12px;font-size:8px;">
+      <span style="color:var(--green);">■ L0 Auto</span>
+      <span style="color:var(--blue);">■ L1 Grant</span>
+      <span style="color:var(--yellow);">■ L2 Confirm</span>
+      <span style="color:var(--red);">■ L3 Strict</span>
+    </div>
+  </section>
+
+  <section class="span2">
+    <h2>Competitive Radar</h2>
+    <div class="radar-wrap">
+      <svg class="radar-svg" width="260" height="260" viewBox="-130 -130 260 260">
+        <!-- Grid -->
+        <polygon points="0,-100 95,-31 59,81 -59,81 -95,-31" fill="none" stroke="var(--border)" stroke-width="0.5"/>
+        <polygon points="0,-75 71,-23 44,61 -44,61 -71,-23" fill="none" stroke="var(--border)" stroke-width="0.5"/>
+        <polygon points="0,-50 48,-15 29,40 -29,40 -48,-15" fill="none" stroke="var(--border)" stroke-width="0.5"/>
+        <polygon points="0,-25 24,-8 15,20 -15,20 -24,-8" fill="none" stroke="var(--border)" stroke-width="0.5"/>
+        <!-- Axes -->
+        <line x1="0" y1="0" x2="0" y2="-105" stroke="var(--border)" stroke-width="0.5"/>
+        <line x1="0" y1="0" x2="100" y2="-33" stroke="var(--border)" stroke-width="0.5"/>
+        <line x1="0" y1="0" x2="62" y2="85" stroke="var(--border)" stroke-width="0.5"/>
+        <line x1="0" y1="0" x2="-62" y2="85" stroke="var(--border)" stroke-width="0.5"/>
+        <line x1="0" y1="0" x2="-100" y2="-33" stroke="var(--border)" stroke-width="0.5"/>
+        <!-- Labels -->
+        <text x="0" y="-112" text-anchor="middle" fill="var(--text-dim)" font-size="8" font-family="JetBrains Mono">Security</text>
+        <text x="108" y="-28" text-anchor="start" fill="var(--text-dim)" font-size="8" font-family="JetBrains Mono">Tools</text>
+        <text x="72" y="95" text-anchor="start" fill="var(--text-dim)" font-size="8" font-family="JetBrains Mono">Mobile</text>
+        <text x="-72" y="95" text-anchor="end" fill="var(--text-dim)" font-size="8" font-family="JetBrains Mono">Cost</text>
+        <text x="-108" y="-28" text-anchor="end" fill="var(--text-dim)" font-size="8" font-family="JetBrains Mono">Context</text>
+
+        <!-- OpenClaw (gray) -->
+        <polygon points="0,-30 86,-28 0,8 -6,8 -30,-10"
+          fill="rgba(100,100,100,0.08)" stroke="rgba(100,100,100,0.4)" stroke-width="1"/>
+        <!-- NanoClaw (dim green) -->
+        <polygon points="0,-80 33,-11 0,8 -6,8 -25,-8"
+          fill="rgba(52,211,153,0.06)" stroke="rgba(52,211,153,0.3)" stroke-width="1"/>
+        <!-- PocketClaw (orange!) -->
+        <polygon points="0,-85 67,-22 59,81 -56,77 -80,-26"
+          fill="rgba(255,107,53,0.12)" stroke="var(--crab)" stroke-width="2"/>
+
+        <!-- PocketClaw dots -->
+        <circle cx="0" cy="-85" r="3" fill="var(--crab)"/>
+        <circle cx="67" cy="-22" r="3" fill="var(--crab)"/>
+        <circle cx="59" cy="81" r="3" fill="var(--crab)"/>
+        <circle cx="-56" cy="77" r="3" fill="var(--crab)"/>
+        <circle cx="-80" cy="-26" r="3" fill="var(--crab)"/>
+      </svg>
+      <div>
+        <div class="radar-legend">
+          <div><span class="dot" style="background:var(--crab);"></span><b style="color:var(--crab);">PocketClaw</b></div>
+          <div><span class="dot" style="background:rgba(100,100,100,0.6);"></span>OpenClaw (294K★)</div>
+          <div><span class="dot" style="background:rgba(52,211,153,0.5);"></span>NanoClaw (20K★)</div>
+        </div>
+        <div style="margin-top:14px;font-size:9px;color:var(--text-dim);line-height:1.8;">
+          <b style="color:var(--crab);">优势：</b><br>
+          ✓ 唯一真正 Serverless 移动端<br>
+          ✓ 唯一有 Bond 养成系统<br>
+          ✓ 唯一 4 层安全 + 审计日志<br>
+          ✓ 唯一动态上下文预算<br>
+          ✓ 唯一 ¥0 免费使用<br>
+          <br>
+          <b style="color:var(--text-muted);">待追赶：</b><br>
+          △ 工具数量 (16 vs OpenClaw 23)<br>
+          △ 插件生态 (无 vs ClawHub 5K+)<br>
+          △ 端侧模型体验 (需优化)
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════ ROW 4: Sprint Timeline (full width) ══════════════ -->
+
   <section class="span3">
-    <h2>Timeline — Sprint 3 (2026-03-15)</h2>
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;">
+    <h2>Sprint Timeline</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:24px;">
+
       <div>
-        <div style="font-size:10px;color:var(--crab);font-weight:600;margin-bottom:12px;letter-spacing:2px;">SPRINT 1 — MAR 10</div>
-        <div style="font-size:11px;line-height:2;color:var(--text-dim);">
-          ✓ 竞品全景调研 (6 个 Claw 项目)<br>
-          ✓ 移动端优先战略确立<br>
-          ✓ Rust 云脑 5 crate 803 LoC<br>
-          ✓ LLM 全链路跑通 (MiniMax-M2.5)<br>
-          ✓ Android 骨架 7 files 397 LoC<br>
-          ✓ 三场景实测通过 (微信/钉钉)
+        <div class="timeline">
+          <div class="timeline-item done">
+            <div class="timeline-title">Sprint 1 · Mar 10</div>
+            <div class="timeline-body">
+              ✓ 竞品调研 6 个 Claw<br>
+              ✓ 移动端优先战略<br>
+              ✓ Rust 云脑 5 crate 803 LoC<br>
+              ✓ MiniMax-M2.5 全链路<br>
+              ✓ Android 骨架 397 LoC<br>
+              ✓ 三场景实测通过
+            </div>
+          </div>
         </div>
       </div>
+
       <div>
-        <div style="font-size:10px;color:var(--crab);font-weight:600;margin-bottom:12px;letter-spacing:2px;">SPRINT 2 — MAR 11-14</div>
-        <div style="font-size:11px;line-height:2;color:var(--text-dim);">
-          ✓ 架构转向 Serverless (Path C)<br>
-          ✓ Fork LLM-Hub 作为引擎层<br>
-          ✓ Qwen3-1.7B 本地推理 (llama.cpp)<br>
-          ✓ DashScope 云 API 双模式<br>
-          ✓ 养成系统 (Bond Engine) 5 阶段<br>
-          ✓ 自定义技能 + 关键词路由<br>
-          ✓ 首次 APK 构建成功 (420MB)<br>
-          ✓ 228+ 处 LLM Hub → PocketClaw 替换
+        <div class="timeline">
+          <div class="timeline-item done">
+            <div class="timeline-title">Sprint 2 · Mar 11-14</div>
+            <div class="timeline-body">
+              ✓ Serverless 架构 (Path C)<br>
+              ✓ Fork LLM-Hub 引擎<br>
+              ✓ Qwen3-1.7B 端侧推理<br>
+              ✓ DashScope 云 API<br>
+              ✓ Bond Engine 5 阶段<br>
+              ✓ 首次 APK 构建 420MB<br>
+              ✓ 228+ 品牌替换
+            </div>
+          </div>
         </div>
       </div>
+
       <div>
-        <div style="font-size:10px;color:var(--crab);font-weight:600;margin-bottom:12px;letter-spacing:2px;">SPRINT 3 — MAR 15</div>
-        <div style="font-size:11px;line-height:2;color:var(--text-dim);">
-          ✓ 16 个内置工具 (file/screen/schedule/msg/clip/web)<br>
-          ✓ 安全四件套 (Guard/Audit/Sandbox/Rate)<br>
-          ✓ L2/L3 确认弹窗 (CompletableDeferred)<br>
-          ✓ 暗/亮主题修复 (mutableStateOf)<br>
-          ✓ STT 语音输入 (SpeechRecognizer)<br>
-          ✓ 5→4 Tab 导航重构<br>
-          ✓ Settings 扩展 (权限/提醒/消息/审计)<br>
-          ✓ SOUL prompt 云端/本地双模式<br>
-          ✓ 全平台消息 handler 接入
+        <div class="timeline">
+          <div class="timeline-item done">
+            <div class="timeline-title">Sprint 3 · Mar 15</div>
+            <div class="timeline-body">
+              ✓ 16 个内置工具<br>
+              ✓ 安全四件套<br>
+              ✓ L2/L3 确认弹窗<br>
+              ✓ STT + TTS 集成<br>
+              ✓ 4-Tab UI 重构<br>
+              ✓ SOUL prompt 双模<br>
+              ✓ 4 平台消息桥<br>
+              ✓ 主题切换修复
+            </div>
+          </div>
         </div>
+      </div>
+
+      <div>
+        <div class="timeline">
+          <div class="timeline-item current">
+            <div class="timeline-title">Sprint 4 · Mar 17 <span class="pulse" style="color:var(--crab);font-size:8px;">● NOW</span></div>
+            <div class="timeline-body">
+              ✓ API 401 endpoint 修复<br>
+              ✓ 默认模型→MiniMax-M2.5<br>
+              ✓ Dashboard 图形化重构<br>
+              ✓ README 装修 + 截图<br>
+              ✓ GitHub push<br>
+              ◑ E2E 工具链测试<br>
+              ○ Vision (MediaProjection)<br>
+              ○ ModelScope 自动下载
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════ ROW 5: Next Steps ══════════════ -->
+
+  <section class="span3">
+    <h2>Roadmap — Next Milestones</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;">
+      <div>
+        <div style="font-size:10px;color:var(--crab);font-weight:600;margin-bottom:10px;letter-spacing:2px;">🦐 v0.5 — JUVENILE</div>
+        <ul class="bug-list">
+          <li class="bug-item"><span class="pri p0">P0</span><span class="bug-desc">E2E 工具调用验证 (all 16)</span></li>
+          <li class="bug-item"><span class="pri p0">P0</span><span class="bug-desc">SOUL prompt 调优 (减少幻觉)</span></li>
+          <li class="bug-item"><span class="pri p1">P1</span><span class="bug-desc">Vision: 截图 + 多模态</span></li>
+          <li class="bug-item"><span class="pri p1">P1</span><span class="bug-desc">Shell 执行工具 (安全审计)</span></li>
+        </ul>
+      </div>
+      <div>
+        <div style="font-size:10px;color:var(--yellow);font-weight:600;margin-bottom:10px;letter-spacing:2px;">🦞 v1.0 — ADULT</div>
+        <ul class="bug-list">
+          <li class="bug-item"><span class="pri p1">P1</span><span class="bug-desc">ModelScope 自动模型下载</span></li>
+          <li class="bug-item"><span class="pri p1">P1</span><span class="bug-desc">联系人/SMS/通话记录</span></li>
+          <li class="bug-item"><span class="pri p1">P1</span><span class="bug-desc">Widget 桌面小组件</span></li>
+          <li class="bug-item"><span class="pri p2">P2</span><span class="bug-desc">APK 瘦身 (420MB→<200MB)</span></li>
+        </ul>
+      </div>
+      <div>
+        <div style="font-size:10px;color:var(--text-muted);font-weight:600;margin-bottom:10px;letter-spacing:2px;">🦀 v2.0 — CRAB (FINAL FORM)</div>
+        <ul class="bug-list">
+          <li class="bug-item"><span class="pri p2">P2</span><span class="bug-desc">iOS companion app</span></li>
+          <li class="bug-item"><span class="pri p2">P2</span><span class="bug-desc">月报卡片 (可分享信号出口)</span></li>
+          <li class="bug-item"><span class="pri p2">P2</span><span class="bug-desc">端侧 Embedding 模型</span></li>
+          <li class="bug-item"><span class="pri p2">P2</span><span class="bug-desc">WASM Skill 市场</span></li>
+        </ul>
       </div>
     </div>
   </section>
@@ -664,8 +773,8 @@ footer {
 </div>
 
 <footer>
-  <span>PocketClaw v0.4.0 · Project Carcinization · 口袋里的管家</span>
-  <span class="pulse" style="color:var(--crab);">● BUILD PASSING · 0 ERRORS</span>
+  <span>PocketClaw v0.4.1 · Project Carcinization · 口袋里的管家 · 移动端原生 AI Agent</span>
+  <span class="pulse" style="color:var(--crab);">● BUILD PASSING · 0 ERRORS · 6 BUGS FIXED</span>
 </footer>
 
 </body>

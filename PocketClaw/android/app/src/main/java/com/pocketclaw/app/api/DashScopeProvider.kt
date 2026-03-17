@@ -21,8 +21,12 @@ import java.net.URL
 object DashScopeProvider {
 
     private const val TAG = "DashScope"
-    private const val BASE_URL = "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions"
-    private const val DEFAULT_MODEL = "qwen-plus"
+    private const val STANDARD_URL = "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions"
+    private const val CODING_URL = "https://coding.dashscope.aliyuncs.com/v1/chat/completions"
+    private const val DEFAULT_MODEL = "MiniMax-M2.5"
+
+    private fun baseUrl(apiKey: String): String =
+        if (apiKey.startsWith("sk-sp-")) CODING_URL else STANDARD_URL
 
     val isReady: Boolean
         get() = Preferences.dashScopeApiKey.isNotBlank()
@@ -63,10 +67,14 @@ object DashScopeProvider {
 
         Log.d(TAG, "Request: model=$DEFAULT_MODEL, messages=${messages.length()}, system=${assembled.systemPrompt.take(80)}...")
 
-        val conn = (URL(BASE_URL).openConnection() as HttpURLConnection).apply {
+        val url = baseUrl(apiKey)
+        Log.d(TAG, "Using endpoint: $url (key prefix: ${apiKey.take(6)}...)")
+
+        val conn = (URL(url).openConnection() as HttpURLConnection).apply {
             requestMethod = "POST"
             setRequestProperty("Content-Type", "application/json")
             setRequestProperty("Authorization", "Bearer $apiKey")
+            setRequestProperty("User-Agent", "openclaw/2026.3.1")
             doOutput = true
             connectTimeout = 30_000
             readTimeout = 60_000

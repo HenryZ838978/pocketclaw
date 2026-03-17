@@ -5,6 +5,48 @@
 
 ---
 
+## Phase 0 — Sprint 4: 2026-03-17
+
+### 目标
+
+版本固化 + API 调试 + 文档装修 + GitHub 发布。
+
+### 达成
+
+#### ✅ API 端点调试
+
+| Bug | 原因 | 修复 |
+|-----|------|------|
+| 401 Unauthorized | `sk-sp-` 前缀 key 需要 `coding.dashscope.aliyuncs.com` + `User-Agent` header | `DashScopeProvider.baseUrl()` 动态选择 endpoint |
+| 400 Model Not Supported | 默认模型写死 `qwen-plus`，Coding Plan 不支持 | `DEFAULT_MODEL` 改为 `MiniMax-M2.5` |
+
+#### ✅ 文档 & 可视化
+
+- **README.md** 全面重写：真机截图 (Chat/Skills/Settings)、ASCII art 架构图、竞品对比表、16 工具清单、Bond 养成系统说明、Roadmap
+- **dashboard.html** 图形化重构：进度环、雷达图 (vs OpenClaw/NanoClaw)、Bug Tracker、Sprint Timeline、Feature 完成度条形图、代码组成甜甜圈图、安全盾牌卡片
+- **DEVLOG.md** 更新 Sprint 4 记录
+
+#### ✅ GitHub Push
+
+- 截图复制到 `assets/screenshots/`
+- Commit 并 push 到 `https://github.com/HenryZ838978/pocketclaw`
+
+### 已知 Bug 状态
+
+| # | 状态 | 描述 |
+|---|------|------|
+| 001 | ✅ Fixed | API 401 — Coding Plan key 需要不同 endpoint |
+| 002 | ✅ Fixed | API 400 — 默认模型应为 MiniMax-M2.5 |
+| 003 | ✅ Fixed | 暗/亮主题切换无效 |
+| 004 | ✅ Fixed | 天气 skill 返回 XML tool_call 格式 |
+| 005 | ✅ Fixed | App icon 不显示 |
+| 006 | ✅ Fixed | DNS 解析失败 (VPN 干扰) |
+| 007 | 🔧 WIP | 本地 LLM 模型仍需手动 ADB push |
+| 008 | 🔴 Open | Kokoro TTS ONNX int64/float 类型错误 |
+| 009 | 📋 Plan | APK 体积 420MB 需要瘦身 |
+
+---
+
 ## Phase 0 — Sprint 3: 2026-03-15
 
 ### 目标

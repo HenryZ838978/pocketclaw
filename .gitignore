@@ -11,7 +11,10 @@ local.properties
 *.onnx
 *.bin
 *.mnn
+*.tar.gz
 ic_launcher-playstore.png
+
+# Android build artifacts
 PocketClaw/android/app/build/
 PocketClaw/android/app/.cxx/
 PocketClaw/android/.gradle/
@@ -20,3 +23,61 @@ PocketClaw/android/local.properties
 android/app/build/
 android/app/.cxx/
 android/.gradle/
+
+# IDE
+.idea/
+*.iml
+.kotlin/
+
+# Java crash logs
+hs_err_pid*.log
+replay_pid*.log
+
+# Large pack directories
+PocketClaw/android/nexa_npu_pack/
+PocketClaw/android/qnn_pack/
+PocketClaw/android/sd_pack/
+PocketClaw/android/release/
+PocketClaw/android/app/release/
+
+# Temp files
+temp.txt
+*.pyc
+__pycache__/
+
+# LLM Hub legacy docs (not ours)
+PocketClaw/android/CHAT_IMPORT_FEATURE.md
+PocketClaw/android/EMBEDDING_THRESHOLDS.md
+PocketClaw/android/IMAGE_GENERATION_MIGRATION.md
+PocketClaw/android/IMG2IMG_IMPLEMENTATION.md
+PocketClaw/android/IMPORT_CHAT_TO_MEMORY.md
+PocketClaw/android/INTEGRATION_COMPLETE.md
+PocketClaw/android/NATIVE_BACKEND_GUIDE.md
+PocketClaw/android/PLAYSTORE_DESCRIPTION.txt
+PocketClaw/android/SD_IMPLEMENTATION.md
+PocketClaw/android/SIMPLIFIED_NATIVE_SETUP.md
+PocketClaw/android/THRESHOLD_ALIGNMENT.md
+PocketClaw/android/UPDATE_SUMMARY.md
+PocketClaw/android/VIBE_CODER_IMPLEMENTATION.md
+PocketClaw/android/build_error.log
+PocketClaw/android/manifest.json
+PocketClaw/android/untitled4.py
+
+# Large native assets (QNN/CVT libs)
+PocketClaw/android/app/src/main/assets/cvtbase/
+PocketClaw/android/app/src/main/assets/qnnlibs/
+
+# Raw screenshots (use assets/screenshots/ instead)
+截图/
+
+# Swift version (iOS not yet)
+PocketClaw/.swift-version
+PocketClaw/swiftly-.tar.gz
+
+# Misc
+PocketClaw/fix_pkg.py
+PocketClaw/gitlog.txt
+PocketClaw/revert_patches.py
+PocketClaw/start_llm_hub.ps1
+PocketClaw/ios/
+libs/
