@@ -74,6 +74,13 @@ PocketClaw/android/app/src/main/assets/qnnlibs/
 PocketClaw/.swift-version
 PocketClaw/swiftly-.tar.gz
 
+# Internal docs (not for public repo)
+CARCINIZATION_PLAN.md
+EMERGENT_BOND.md
+landing.html
+pocketclaw-deck.html
+pocketclaw-deck-standalone.html
+
 # Misc
 PocketClaw/fix_pkg.py
 PocketClaw/gitlog.txt
